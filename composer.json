@@ -28,7 +28,8 @@
         "symfony/yaml": "6.3.*",
         "symfonycasts/reset-password-bundle": "^1.17",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+      "ext-http": "*"
     },
     "require-dev": {
         "symfony/debug-bundle": "6.3.*",
