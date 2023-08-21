@@ -50,16 +50,19 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Site $site = null;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class)]
-    private Collection $inscriptions;
+
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, orphanRemoval: true)]
     private Collection $sortiesOrganisees;
 
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'inscriptions')]
+    private Collection $inscriptions;
+
     public function __construct()
     {
-        $this->inscriptions = new ArrayCollection();
+
         $this->sortiesOrganisees = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,29 +231,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getInscriptions(): Collection
-    {
-        return $this->inscriptions;
-    }
-
-    public function addInscription(Sortie $inscription): static
-    {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions->add($inscription);
-        }
-
-        return $this;
-    }
-
-    public function removeInscription(Sortie $inscription): static
-    {
-        $this->inscriptions->removeElement($inscription);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Sortie>
@@ -278,6 +258,30 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
                 $sortiesOrganisee->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Sortie $inscription): static
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions->add($inscription);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Sortie $inscription): static
+    {
+        $this->inscriptions->removeElement($inscription);
 
         return $this;
     }
