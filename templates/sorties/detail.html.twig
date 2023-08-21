@@ -15,6 +15,12 @@
     <p>Organisé par {{ sortie.organisateur.pseudo }}, rattaché au campus de {{ sortie.siteorganisateur.nom }}</p>
     <p>{{ sortie.infossortie }}</p>
     <p>Capacité de l'evenement : {{ sortie.nbinscriptionsmax }} personnes</p>
+    <div>
+        <ul>Ils participent à cet evenement :</ul>
+        {% for inscrit in inscrits %}
+            <li>{{ inscrit.pseudo }}</li>
+        {% endfor %}
+    </div>
 
 {% endblock %}
 

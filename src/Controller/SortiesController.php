@@ -17,6 +17,7 @@ class SortiesController extends AbstractController
     #[Route('/list', name: '_list')]
     public function listSortie(SortieRepository $sortieRepository): Response
     {
+
         $sorties = $sortieRepository->findAll();
         return $this->render('sorties/list.html.twig',compact('sorties'));
     }
@@ -24,7 +25,8 @@ class SortiesController extends AbstractController
     #[Route('/detail/{sortie}', name: '_detail')]
     public function detailSortie(Sortie $sortie): Response
     {
-        return $this->render('sorties/detail.html.twig', compact('sortie'));
+        $inscrits = $sortie->getInscriptions();
+        return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits'));
     }
 
     #[Route('/creationSortie', name: '_creationSortie')]
