@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="profil">
+<H1> {{ participant.pseudo }}</H1>
+        <ul>
+            <li>Prenom : {{ participant.prenom }}</li>
+            <li>Nom : {{ participant.nom }}</li>
+            <li>Téléphone : {{ participant.telephone }}</li>
+            <li>Email : {{ participant.mail }}</li>
+            <li>Ville de rattachement : {{ participant.site }}</li>
+        </ul>
+        <button><a href="{{ path('app_sorties_list') }}">Retour</a></button>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
