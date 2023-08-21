@@ -11,6 +11,33 @@
         {% endblock %}
     </head>
     <body>
+    <header>
+        <nav>
+            <div>
+                <div>
+                    <h1>Sortir.com</h1>
+                </div>
+                <div>
+                    {% if not app.user %}
+                        <a href="{{ path('app_login') }}">Se connecter</a>
+                    {% endif %}
+                    {% if app.user %}
+                        <span>Bonjour {{ app.user.pseudo }}</span>
+                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="liensNav">
+                <a class="lienNav" href="/">Accueil</a>
+                <a class="lienNav" href="/aboutus">About Us</a>
+            </div>
+        </nav>
+    </header>
+    <main>
         {% block body %}{% endblock %}
+    </main>
+    <footer>
+        <p>Sortir.com / Eni / Team Y'a Quoi ©</p>
+    </footer>
     </body>
 </html>

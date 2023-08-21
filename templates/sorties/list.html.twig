@@ -1,11 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="list">
-        {% for sortie in sortie %}
-            {{ sortie.nom }} <br>
+
+    <h2>Evenements créés par nos utilisateurs</h2>
+    <div>
+        {% for sortie in sorties %}
+           <a href="{{ path('app_sorties_detail', {'sortie':sortie.id}) }}">
+            <div>
+               <h3>{{ sortie.nom }} <span> : {{ sortie.lieu.nom }}</span></h3>
+                        <p>Prévu le {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}} à
+                                    {{ sortie.dateheuredebut | date("H:i")}}</p>
+                       <p>Organisé par {{ sortie.organisateur.pseudo }}</p>
+           </div>
+           </a>
         {% endfor %}
     </div>
+
 {% endblock %}
 
 {% block title %}
