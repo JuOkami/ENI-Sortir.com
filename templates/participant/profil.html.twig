@@ -8,7 +8,7 @@
             <li>Nom : {{ participant.nom }}</li>
             <li>Téléphone : {{ participant.telephone }}</li>
             <li>Email : {{ participant.mail }}</li>
-            <li>Ville de rattachement : {{ participant.site }}</li>
+            <li>Ville de rattachement : {{ participant.site.nom }}</li>
         </ul>
         <button><a href="{{ path('app_sorties_list') }}">Retour</a></button>
     </div>
