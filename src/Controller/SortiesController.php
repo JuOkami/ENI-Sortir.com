@@ -14,14 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/', name: 'app_sorties')]
 class SortiesController extends AbstractController
 {
-#[Route('/list', name: '_list')]
-public function List(SortieRepository $sortieRepository): Response
-{
-    $sortie = $sortieRepository->findAll();
-    return $this->render('sorties/list.html.twig',compact('sortie'));
-}
+    #[Route('/list', name: '_list')]
+    public function listSortie(SortieRepository $sortieRepository): Response
+    {
+        $sorties = $sortieRepository->findAll();
+        return $this->render('sorties/list.html.twig',compact('sorties'));
+    }
+
+    #[Route('/detail/{sortie}', name: '_detail')]
+    public function detailSortie(Sortie $sortie): Response
+    {
+        return $this->render('sorties/detail.html.twig', compact('sortie'));
+    }
+
     #[Route('/creationSortie', name: '_creationSortie')]
-    public function CreationSerie (EntityManagerInterface $entityManager, Request $request): Response
+    public function creationSortie (EntityManagerInterface $entityManager, Request $request): Response
     {
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class,$sortie);

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <img src="{{ sortie.urlphoto }}">
+    <h3>{{ sortie.nom }}</h3>
+    <p> Lieu : {{ sortie.lieu.nom }} à {{ sortie.lieu.ville.nom }}</p>
+    <p>Le {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}}
+        de {{ sortie.dateheuredebut | date("H:i")}}
+        à -à faire-
+    </p>
+    <p>Organisé par {{ sortie.organisateur.pseudo }}, rattaché au campus de {{ sortie.siteorganisateur.nom }}</p>
+    <p>{{ sortie.infossortie }}</p>
+    <p>Capacité de l'evenement : {{ sortie.nbinscriptionsmax }} personnes</p>
+
+{% endblock %}
+
