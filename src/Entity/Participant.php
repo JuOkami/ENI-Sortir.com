@@ -43,12 +43,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 60)]
     private ?string $mail = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $mot_de_passe = null;
-
-    #[ORM\Column]
-    private ?bool $administrateur = null;
-
     #[ORM\Column]
     private ?bool $actif = null;
 
