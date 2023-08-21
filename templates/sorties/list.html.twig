@@ -10,7 +10,7 @@
                <h3>{{ sortie.nom }} <span> : {{ sortie.lieu.nom }}</span></h3>
                         <p>Prévu le {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}} à
                                     {{ sortie.dateheuredebut | date("H:i")}}</p>
-                       <p>Organisé par {{ sortie.organisateur.pseudo }}</p>
+                <a href="{{ path('app_participant_affichageProfil',{'participant':sortie.organisateur.id}) }}"> <p>Organisé par {{ sortie.organisateur.pseudo }}</p></a>
            </div>
            </a>
         {% endfor %}
