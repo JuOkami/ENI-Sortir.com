@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Entity\SortieFiltre;
+use App\Form\SortieFiltreType;
 use App\Form\SortieType;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
@@ -18,11 +20,28 @@ class SortiesController extends AbstractController
 {
 
     #[Route('/list', name: '_list')]
-    public function listSortie(SortieRepository $sortieRepository): Response
+    public function listSortie(SortieRepository $sortieRepository, ParticipantRepository $participantRepository,Request $request): Response
     {
+        if ($this->getUser()){
+            $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+        } else {
+            $utilisateur = null;
+        }
 
-        $sorties = $sortieRepository->findAll();
-        return $this->render('sorties/list.html.twig',compact('sorties'));
+        $sortieFiltre = new SortieFiltre();
+        $sortieFiltreForm = $this->createForm(SortieFiltreType::class, $sortieFiltre);
+        $sortieFiltreForm->handleRequest($request);
+
+        if($sortieFiltreForm->isSubmitted()){
+            $sorties = $sortieRepository->findByRecherche($sortieFiltre, $utilisateur);
+        } else {
+            $sorties = $sortieRepository->findAll();
+        }
+
+        return $this->render('sorties/list.html.twig',[
+            "sorties" => $sorties,
+            "sortieFiltreForm" => $sortieFiltreForm->createView()
+        ]);
     }
 
     #[Route('/detail/{sortie}', name: '_detail')]
@@ -84,4 +103,5 @@ class SortiesController extends AbstractController
             ]
         );
     }
+
 }
