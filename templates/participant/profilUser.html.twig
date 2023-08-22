@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>Mon profil</h1>
+    <p>Pseudo : {{ participant.pseudo }}</p>
+    <p>Prenom : {{ participant.prenom }}</p>
+    <p>Nom : {{ participant.nom }}</p>
+    <p>Telephone : {{ participant.telephone }}</p>
+    <p>Email : {{ participant.mail }}</p>
+    <p>Ville de rattachement : {{ participant.site.nom }}</p>
+{% endblock %}
+
