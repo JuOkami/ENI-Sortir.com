@@ -21,6 +21,18 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+    public function findSortiesNonPassees()
+    {
+        $today = new DateTime();
+        $oneMonthAgo = (new DateTime())->modify('-1 month');
+
+        return $this->createQueryBuilder('s')
+            ->where('s.date > :oneMonthAgo')
+            ->setParameter('oneMonthAgo', $oneMonthAgo)
+            ->orderBy('s.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
