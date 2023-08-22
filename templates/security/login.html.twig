@@ -4,10 +4,6 @@
 
 {% block body %}
 <form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
     {% if app.user %}
         <div class="mb-3">
             Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Me déconnecter</a>
@@ -23,6 +19,10 @@
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
+
+    {% if error %}
+        <div class="alert alert-danger">Le pseudo n'existe pas ou le mot de passe est erroné.</div>
+    {% endif %}
 
     <button class="btn btn-lg btn-primary" type="submit">
         Connexion

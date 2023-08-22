@@ -24,6 +24,7 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+
     public function findByRecherche(SortieFiltre $recherche, Participant $utilisateur ){
         $query =  $this->createQueryBuilder('sortie')
                 ->select("sortie");
@@ -83,6 +84,19 @@ class SortieRepository extends ServiceEntityRepository
 
         $paginator = new Paginator($query);
         return $paginator;
+    }
+
+    public function findSortiesNonPassees()
+    {
+        $today = new DateTime();
+        $oneMonthAgo = (new DateTime())->modify('-1 month');
+
+        return $this->createQueryBuilder('s')
+            ->where('s.date > :oneMonthAgo')
+            ->setParameter('oneMonthAgo', $oneMonthAgo)
+            ->orderBy('s.date', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
