@@ -2,13 +2,15 @@
 
 {% block body %}
 
+    {{ form(sortieFiltreForm) }}
+
     <h2>Evenements créés par nos utilisateurs</h2>
     <div>
         {% for sortie in sorties %}
            <a href="{{ path('app_sorties_detail', {'sortie':sortie.id}) }}">
             <div>
                <h3>{{ sortie.nom }} <span> : {{ sortie.lieu.nom }}</span></h3>
-                        <p>Prévu le {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}} à
+                        <p>Prévu le {{ sortie.dateheuredebut | date("d/m/Y", "Europe/Paris")}} à
                                     {{ sortie.dateheuredebut | date("H:i")}}</p>
                 <a href="{{ path('app_participant_affichageParticipant',{'participant':sortie.organisateur.id}) }}"> <p>Organisé par {{ sortie.organisateur.pseudo }}</p></a>
            </div>
