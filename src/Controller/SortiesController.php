@@ -30,13 +30,17 @@ class SortiesController extends AbstractController
     {
         if ($this->getUser()){
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+            $isinscrit = $inscriptionSortieService->isInscrit($sortie, $utilisateur);
             $boutonInscription = $inscriptionSortieService->validationInscription($sortie, $utilisateur);
+            $boutonDesistement = $inscriptionSortieService->validationDesistement($sortie, $utilisateur);
         } else {
+            $isinscrit = false;
             $boutonInscription = ['inscriptionPossible' => false, 'motif' => 'utilisateur non connecté'];
+            $boutonDesistement = ['desistementPossible' => false, 'motif' => 'utilisateur non connecté'];
         }
 
         $inscrits = $sortie->getInscriptions();
-        return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits', 'boutonInscription'));
+        return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits', 'boutonInscription', 'boutonDesistement', 'isinscrit'));
     }
 
     #[Route('/inscription/{sortie}', name: '_inscription')]
