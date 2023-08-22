@@ -3,8 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\ModifierProfilType;
+use App\Form\RegistrationFormType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/', name: 'app_participant')]
@@ -24,5 +29,34 @@ class ParticipantController extends AbstractController
             throw $this->createAccessDeniedException('Vous devez être connecté en tant que participant.');
         }
         return $this->render('participant/profilUser.html.twig', compact('participant'));
+    }
+
+    #[Route('/modifierProfil', name: 'modifier_profil')]
+    public function modifierProfil( Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $participant = $this->getUser();
+        $form = $this->createForm(RegistrationFormType::class, $participant);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $participant->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $participant,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager->persist($participant);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+
+            return $this->redirectToRoute('app_participant_affichageProfil');
+        }
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
 }

@@ -12,5 +12,7 @@
     <p>Telephone : {{ participant.telephone }}</p>
     <p>Email : {{ participant.mail }}</p>
     <p>Ville de rattachement : {{ participant.site.nom }}</p>
+
+    <a href="{{ path('app_participantmodifier_profil') }}"><button>Modifier votre profil</button></a>
 {% endblock %}
 
