@@ -22,7 +22,7 @@
                         <a href="{{ path('app_login') }}">Se connecter</a>
                     {% endif %}
                     {% if app.user %}
-                        <span>Bonjour {{ app.user.pseudo }}</span>
+                        <a href="{{ path('app_participant_affichageProfil') }}">Bonjour {{ app.user.pseudo }}</a>
                         <a href="{{ path('app_logout') }}">Se déconnecter</a>
                     {% endif %}
                 </div>
