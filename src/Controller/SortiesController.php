@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use App\Services\InscriptionSortieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/', name: 'app_sorties')]
 class SortiesController extends AbstractController
 {
+
     #[Route('/list', name: '_list')]
     public function listSortie(SortieRepository $sortieRepository): Response
     {
@@ -23,10 +26,39 @@ class SortiesController extends AbstractController
     }
 
     #[Route('/detail/{sortie}', name: '_detail')]
-    public function detailSortie(Sortie $sortie): Response
+    public function detailSortie(Sortie $sortie, InscriptionSortieService $inscriptionSortieService, ParticipantRepository $participantRepository): Response
     {
+        if ($this->getUser()){
+            $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+            $boutonInscription = $inscriptionSortieService->validationInscription($sortie, $utilisateur);
+        } else {
+            $boutonInscription = ['inscriptionPossible' => false, 'motif' => 'utilisateur non connecté'];
+        }
+
         $inscrits = $sortie->getInscriptions();
-        return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits'));
+        return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits', 'boutonInscription'));
+    }
+
+    #[Route('/inscription/{sortie}', name: '_inscription')]
+    public function inscriptionSortie(Sortie $sortie, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    {
+        $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+        $sortie->addInscription($utilisateur);
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_sorties_detail', ["sortie" => $sortie->getId()]);
+    }
+
+    #[Route('/desinscription/{sortie}', name: '_desinscription')]
+    public function desinscriptionSortie(Sortie $sortie, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    {
+        $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+        $sortie->removeInscription($utilisateur);
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_sorties_detail', ["sortie" => $sortie->getId()]);
     }
 
     #[Route('/creationSortie', name: '_creationSortie')]

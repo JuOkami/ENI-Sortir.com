@@ -5,12 +5,13 @@
 {% endblock %}
 
 {% block body %}
-    <img src="{{ sortie.urlphoto }}">
+    <img src="{{ sortie.urlphoto }}" alt="Illustration de la sortie">
     <h3>{{ sortie.nom }}</h3>
     <p> Lieu : {{ sortie.lieu.nom }} à {{ sortie.lieu.ville.nom }}</p>
     <p>Le {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}}
         de {{ sortie.dateheuredebut | date("H:i")}}
         à -à faire-
+{#        TODO : calculer la date de fin d'une sortie #}
     </p>
     <p>Organisé par {{ sortie.organisateur.pseudo }}, rattaché au campus de {{ sortie.siteorganisateur.nom }}</p>
     <p>{{ sortie.infossortie }}</p>
@@ -21,6 +22,17 @@
             <li>{{ inscrit.pseudo }}</li>
         {% endfor %}
     </div>
+    {% if not app.user %}
+        <p>Pour participer à cette sortie, <a href="{{ path("app_login") }}">connectez-vous</a></p>
+    {% else %}
+        <p>{{ boutonInscription['motif']}}</p>
+        {% if boutonInscription['inscriptionPossible'] %}
+            <a type="button" href="{{ path('app_sorties_inscription', {'sortie':sortie.id}) }}">Cliquez ici</a>
+        {% endif %}
+        {% if boutonInscription['utilisateurInscrit'] %}
+            <a type="button" href="{{ path('app_sorties_desinscription', {'sortie':sortie.id}) }}">Se désinscrire</a>
+        {% endif %}
+    {% endif %}
 
 {% endblock %}
 
