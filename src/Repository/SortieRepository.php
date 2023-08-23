@@ -2,12 +2,17 @@
 
 namespace App\Repository;
 
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+
+
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -86,6 +91,23 @@ class SortieRepository extends ServiceEntityRepository
         return $paginator;
     }
 
+    public function findArchivableSorties()
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.dateHeureDebut < :date')
+            ->setParameter('date', new DateTime('-1 month'))
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findNonArchivedSorties($archivedState)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.etat != :archivedState')
+            ->setParameter('archivedState', $archivedState)
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
@@ -111,4 +133,5 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }

@@ -19,6 +19,9 @@
             <div>
                 <div>
                     <h1>Sortir.com</h1>
+                    <!-- Ajoutez ceci où vous voulez afficher la date et l'heure actuelles -->
+                    <p>Heure actuelle : {{ "now"|date("Y-m-d H:i:s") }}</p>
+
                 </div>
                 <div>
                     {% if not app.user %}
