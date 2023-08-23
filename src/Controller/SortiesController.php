@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
 use App\Form\SortieFiltreType;
@@ -8,24 +9,43 @@ use App\Form\SortieType;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use App\Services\InscriptionSortieService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 #[Route('/', name: 'app_sorties')]
 class SortiesController extends AbstractController
 {
 
     #[Route('/list', name: '_list')]
-    public function listSortie(SortieRepository $sortieRepository, ParticipantRepository $participantRepository,Request $request): Response
+    public function listSortie(
+        SortieRepository $sortieRepository,
+        ParticipantRepository $participantRepository,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response
     {
         if ($this->getUser()){
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
         } else {
             $utilisateur = null;
         }
+
+        // Mettre à jour l'état des sorties archivées
+        $archivedSorties = $sortieRepository->findArchivableSorties();
+        $archivedState = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Archivée']);
+
+        foreach ($archivedSorties as $sortie) {
+            if ($sortie->getDateHeureDebut() < new DateTime('-1 month')) {
+                $sortie->setEtat($archivedState);
+                $entityManager->persist($sortie);
+            }
+        }
+        $entityManager->flush();
 
         $sortieFiltre = new SortieFiltre();
         $sortieFiltreForm = $this->createForm(SortieFiltreType::class, $sortieFiltre);
@@ -34,8 +54,10 @@ class SortiesController extends AbstractController
         if($sortieFiltreForm->isSubmitted()){
             $sorties = $sortieRepository->findByRecherche($sortieFiltre, $utilisateur);
         } else {
-            $sorties = $sortieRepository->findAll();
+            //$sorties = $sortieRepository->findAll();
+            $sorties = $sortieRepository->findNonArchivedSorties($archivedState);
         }
+
 
         return $this->render('sorties/list.html.twig',[
             "sorties" => $sorties,

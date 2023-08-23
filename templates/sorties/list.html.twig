@@ -7,6 +7,7 @@
     <h2>Evenements créés par nos utilisateurs</h2>
     <div>
         {% for sortie in sorties %}
+            {% if sortie.etat.libelle != 'Archivée' %}
            <a href="{{ path('app_sorties_detail', {'sortie':sortie.id}) }}">
             <div>
                <h3>{{ sortie.nom }} <span> : {{ sortie.lieu.nom }}</span></h3>
@@ -15,6 +16,7 @@
                 <a href="{{ path('app_participant_affichageParticipant',{'participant':sortie.organisateur.id}) }}"> <p>Organisé par {{ sortie.organisateur.pseudo }}</p></a>
            </div>
            </a>
+            {% endif %}
         {% endfor %}
     </div>
 
