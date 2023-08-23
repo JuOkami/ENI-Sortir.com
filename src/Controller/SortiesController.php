@@ -104,4 +104,15 @@ class SortiesController extends AbstractController
         );
     }
 
+    #[Route('/{id}', name: '_supressionSortie', methods: ['POST'])]
+    public function supressionSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($sortie);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_sorties_list', [], Response::HTTP_SEE_OTHER);
+    }
+
 }
