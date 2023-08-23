@@ -38,10 +38,16 @@
             {% endif %}
         {% endif %}
     {% endif %}
+ JC/implementation_dune_carte
+
+    {{ include('sorties/carte.html.twig') }}
+
+
     {% if app.user %}
         {% if app.user.id==sortie.organisateur.id %}
             {{ include('sorties/supressionSortie.html.twig') }}
         {% endif %}
     {% endif %}
+master
 {% endblock %}
 
