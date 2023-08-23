@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
 use App\Form\SortieFiltreType;
