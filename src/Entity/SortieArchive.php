@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieArchiveRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -54,9 +56,15 @@ class SortieArchive
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Participant $inscriptions = null;
+    #[ORM\OneToMany(mappedBy: 'sortieArchive', targetEntity: Participant::class)]
+    private Collection $inscriptions;
+
+    public function __construct()
+    {
+        $this->inscriptions = new ArrayCollection();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -207,14 +215,50 @@ class SortieArchive
         return $this;
     }
 
-    public function getInscriptions(): ?Participant
+
+    public function cloneSortie(Sortie $sortie)
+    {
+        $this->setNom($sortie->getNom());
+        $this->setDateHeureDebut($sortie->getDateHeureDebut());
+        $this->setDuree($sortie->getDuree());
+        $this->setDateLimiteInscription($sortie->getDateLimiteInscription());
+        $this->setNbInscriptionsMax($sortie->getNbInscriptionsMax());
+        $this->setInfosSortie($sortie->getInfosSortie());
+        $this->setUrlPhoto($sortie->getUrlPhoto());
+        $this->setOrganisateur($sortie->getOrganisateur());
+        $this->setSiteOrganisateur($sortie->getSiteOrganisateur());
+        $this->setEtat($sortie->getEtat());
+        $this->setLieu($sortie->getLieu());
+
+
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getInscriptions(): Collection
     {
         return $this->inscriptions;
     }
 
-    public function setInscriptions(?Participant $inscriptions): static
+    public function addInscription(Participant $inscription): static
     {
-        $this->inscriptions = $inscriptions;
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions->add($inscription);
+            $inscription->setSortieArchive($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Participant $inscription): static
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getSortieArchive() === $this) {
+                $inscription->setSortieArchive(null);
+            }
+        }
 
         return $this;
     }

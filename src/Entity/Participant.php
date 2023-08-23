@@ -58,6 +58,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'inscriptions')]
     private Collection $inscriptions;
 
+    #[ORM\ManyToOne(inversedBy: 'inscriptions')]
+    private ?SortieArchive $sortieArchive = null;
+
     public function __construct()
     {
 
@@ -282,6 +285,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeInscription(Sortie $inscription): static
     {
         $this->inscriptions->removeElement($inscription);
+
+        return $this;
+    }
+
+    public function getSortieArchive(): ?SortieArchive
+    {
+        return $this->sortieArchive;
+    }
+
+    public function setSortieArchive(?SortieArchive $sortieArchive): static
+    {
+        $this->sortieArchive = $sortieArchive;
 
         return $this;
     }
