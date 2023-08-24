@@ -2,6 +2,11 @@
 
 {% block body %}
 {{ form(sortieForm) }}
+
+    <div id="passagedevaleurs" data-liste="{{ liste }}" ></div>
+    <script src="{{ asset('JS/choixLieu.js') }}"></script>
+
+
 {% endblock %}
 
 {% block title %}
