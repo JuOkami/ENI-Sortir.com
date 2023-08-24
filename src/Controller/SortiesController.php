@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use Symfony\Component\Serializer\SerializerInterface;
+use function Symfony\Component\Clock\now;
 
 
 #[Route('/', name: 'app_sorties')]
@@ -131,18 +132,19 @@ class SortiesController extends AbstractController
             $context );
 
         $sortie = new Sortie();
+
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
 
 
-
-
         if ($sortieForm->isSubmitted()&&$sortieForm->isValid()){
+
+
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setSiteOrganisateur($utilisateur->getSite());
+
             $sortie->setEtat($etatRepository->find(1));
-            $sortie->setLieu($lieuRepository->find($request->query->get("sortie[lieuParVille]")));
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Sortie ajoutée');

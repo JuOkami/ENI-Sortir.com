@@ -4,33 +4,33 @@ let liste = 0;
 window.onload = init;
 
 function init(){
-    premierSelect();
     blankLieux();
-    document.getElementById("sortie_choixVille").addEventListener("click", miseajourlistelieux);
+    premierSelect();
+
+    document.getElementById("sortie_ville").addEventListener("click", miseajourlistelieux);
 }
 function premierSelect() {
     var passageDeValeurs = document.getElementById('passagedevaleurs');
+    document.getElementById("sortie_ville").innerHTML="";
     liste = JSON.parse(passageDeValeurs.dataset.liste);
 
     let blankoption = document.createElement("option");
     blankoption.innerText = "--Selectionnez une ville--"
     blankoption.value = 0;
-    document.getElementById("sortie_choixVille").appendChild(blankoption);
+    document.getElementById("sortie_ville").appendChild(blankoption);
 
     for (i = 0; i<liste.length; i++){
         let option = document.createElement("option");
         option.innerText = liste[i].nom;
         option.value = liste[i].id;
-        document.getElementById("sortie_choixVille").appendChild(option);
+        document.getElementById("sortie_ville").appendChild(option);
     }
-
-    console.log(liste);
 }
 
 function miseajourlistelieux() {
-    document.getElementById("sortie_lieuParVille").innerHTML = "";
+
     blankLieux();
-   let champville = document.getElementById("sortie_choixVille");
+   let champville = document.getElementById("sortie_ville");
     let valeurVille = champville.options[champville.selectedIndex].value;
     let villeActuelle;
 
@@ -45,15 +45,16 @@ function miseajourlistelieux() {
             let option = document.createElement("option");
             option.innerText = lieuxassocies[i].nom;
             option.value = lieuxassocies[i].id;
-            document.getElementById("sortie_lieuParVille").appendChild(option);
+            document.getElementById("sortie_lieu").appendChild(option);
         }
 
     }
 }
 
 function blankLieux(){
+    document.getElementById("sortie_lieu").innerHTML = "";
     let blankoption = document.createElement("option");
     blankoption.innerText = "--Selectionnez un lieu--"
     blankoption.value = 0;
-    document.getElementById("sortie_lieuParVille").appendChild(blankoption);
+    document.getElementById("sortie_lieu").appendChild(blankoption);
 }
