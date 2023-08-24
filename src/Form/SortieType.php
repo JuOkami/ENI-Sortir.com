@@ -6,6 +6,7 @@ use App\Entity\Lieu;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -26,7 +27,9 @@ class SortieType extends AbstractType
             ->add('nbInscriptionsMax', NumberType::class, ['label'=>'Nombre maximum de participants'])
             ->add('infosSortie', TextareaType::class, ['label'=>'Decrivez votre sortie en quelques mots'])
             ->add('urlPhoto')
-            ->add('lieu',EntityType::class,['class'=>Lieu::class,'choice_label'=>'nom'])
+            ->add('choixVille', ChoiceType::class, ['mapped' => false])
+            ->add('lieuParVille', ChoiceType::class, ['mapped' => false])
+//            ->add('lieu',EntityType::class,['class'=>Lieu::class,'choice_label'=>'nom'])
             ->add("Valider", SubmitType::class)
         ;
     }

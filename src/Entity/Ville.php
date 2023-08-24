@@ -6,6 +6,7 @@ use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
 class Ville
@@ -13,15 +14,18 @@ class Ville
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['listeLieux'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
+    #[Groups(['listeLieux'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 10)]
     private ?string $codePostal = null;
 
     #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]
+    #[Groups(['listeLieux'])]
     private Collection $lieux;
 
     public function __construct()

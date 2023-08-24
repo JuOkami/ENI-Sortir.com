@@ -6,8 +6,11 @@ use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
 use App\Form\SortieFiltreType;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use App\Repository\VilleRepository;
 use App\Services\InscriptionSortieService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
+use Symfony\Component\Serializer\SerializerInterface;
 
 
 #[Route('/', name: 'app_sorties')]
@@ -106,13 +111,38 @@ class SortiesController extends AbstractController
     }
 
     #[Route('/creationSortie', name: '_creationSortie')]
-    public function creationSortie (EntityManagerInterface $entityManager, Request $request): Response
+    public function creationSortie (
+        EntityManagerInterface $entityManager,
+        Request $request,
+        VilleRepository $villeRepository,
+        LieuRepository $lieuRepository,
+        ParticipantRepository $participantRepository,
+        EtatRepository $etatRepository,
+        SerializerInterface $serializer
+
+    ): Response
     {
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups('listeLieux')
+            ->toArray();
+        $listevilleslieux = $serializer->serialize(
+            $villeRepository->findBy([], ["nom" => "ASC"] ),
+            'json',
+            $context );
+
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
 
+
+
+
         if ($sortieForm->isSubmitted()&&$sortieForm->isValid()){
+            $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+            $sortie->setOrganisateur($utilisateur);
+            $sortie->setSiteOrganisateur($utilisateur->getSite());
+            $sortie->setEtat($etatRepository->find(1));
+            $sortie->setLieu($lieuRepository->find($request->query->get("sortie[lieuParVille]")));
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success','Sortie ajoutée');
@@ -120,6 +150,7 @@ class SortiesController extends AbstractController
         }
         return $this->render('sorties/creationSortie.html.twig',
             [
+                "liste" => $listevilleslieux,
                 "sortieForm" => $sortieForm->createView()
             ]
         );
