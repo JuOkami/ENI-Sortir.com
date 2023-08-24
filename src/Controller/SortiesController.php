@@ -35,18 +35,6 @@ class SortiesController extends AbstractController
             $utilisateur = null;
         }
 
-        // Mettre à jour l'état des sorties archivées
-        $archivedSorties = $sortieRepository->findArchivableSorties();
-        $archivedState = $entityManager->getRepository(Etat::class)->findOneBy(['libelle' => 'Archivée']);
-
-        foreach ($archivedSorties as $sortie) {
-            if ($sortie->getDateHeureDebut() < new DateTime('-1 month')) {
-                $sortie->setEtat($archivedState);
-                $entityManager->persist($sortie);
-            }
-        }
-        $entityManager->flush();
-
         $sortieFiltre = new SortieFiltre();
         $sortieFiltreForm = $this->createForm(SortieFiltreType::class, $sortieFiltre);
         $sortieFiltreForm->handleRequest($request);
@@ -54,8 +42,7 @@ class SortiesController extends AbstractController
         if($sortieFiltreForm->isSubmitted()){
             $sorties = $sortieRepository->findByRecherche($sortieFiltre, $utilisateur);
         } else {
-            //$sorties = $sortieRepository->findAll();
-            $sorties = $sortieRepository->findNonArchivedSorties($archivedState);
+            $sorties = $sortieRepository->findAll();
         }
 
 
