@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\ModificationProfilType;
 use App\Form\ModifierProfilType;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,18 +36,11 @@ class ParticipantController extends AbstractController
     public function modifierProfil( Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $participant = $this->getUser();
-        $form = $this->createForm(RegistrationFormType::class, $participant);
+        $form = $this->createForm(ModificationProfilType::class, $participant);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $participant->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $participant,
-                    $form->get('plainPassword')->getData()
-                )
-            );
 
             $entityManager->persist($participant);
             $entityManager->flush();
@@ -55,8 +49,8 @@ class ParticipantController extends AbstractController
             return $this->redirectToRoute('app_participant_affichageProfil');
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+        return $this->render('participant/modifierProfil.html.twig', [
+            'modifierProfilForm' => $form->createView(),
         ]);
     }
 }
