@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    {{ form(lieuForm) }}
+    <script src="{{ asset('JS/appelApiAdresses.js') }}"></script>
+    <div id="affichage"></div>
+{% endblock %}

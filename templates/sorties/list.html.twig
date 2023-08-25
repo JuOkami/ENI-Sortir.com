@@ -2,7 +2,7 @@
 
 {% block body %}
 
-{#    {{ form_start(sortieFiltreForm) }}#}
+    {{ form_start(sortieFiltreForm) }}
     {{ form_row(sortieFiltreForm.name) }}
     {{ form_row(sortieFiltreForm.dateMin) }}
     {{ form_row(sortieFiltreForm.dateMax) }}
@@ -12,7 +12,7 @@
     {% endif %}
     {{ form_row(sortieFiltreForm.isPasse) }}
     {{ form_row(sortieFiltreForm.site) }}
-{#    {{ form_end(sortieFiltreForm) }}#}
+    {{ form_end(sortieFiltreForm) }}
 
     <h2>Evenements créés par nos utilisateurs</h2>
     <div>

@@ -28,14 +28,14 @@ function miseajourURL() {
         .then(reponse => reponse.json())
         .then(
             json=>{
-               exploitationDuJason(json)
+               exploitationDuJason(json.features)
             }
         )
     console.log(infoadresse);
 }
 
 function exploitationDuJason(json){
-    console.log(json.features);
-    document.getElementById("affichage").innerText = json.features[0].properties;
+    console.log(json);
+    // document.getElementById("affichage").innerText = json;
 
 }

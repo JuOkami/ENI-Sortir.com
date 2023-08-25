@@ -1,7 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{{ form(sortieForm) }}
+
+    {{ form_start(sortieForm) }}
+        {{ form_row(sortieForm.nom) }}
+        {{ form_row(sortieForm.dateHeureDebut) }}
+        {{ form_row(sortieForm.duree) }}
+        {{ form_row(sortieForm.dateLimiteInscription) }}
+        {{ form_row(sortieForm.nbInscriptionsMax) }}
+        {{ form_row(sortieForm.infosSortie) }}
+        {{ form_row(sortieForm.urlPhoto) }}
+        {{ form_row(sortieForm.ville) }}
+        {{ form_row(sortieForm.lieu) }}
+        <p>Aucun lieu ne vous convient : <a href="{{ path('app_lieu') }}">créez en un nouveau !</a></p>
+    {{ form_end(sortieForm) }}
 
     <div style="display : none" id="passagedevaleurs" data-liste="{{ liste }}" ></div>
     <script src="{{ asset('JS/choixLieu.js') }}"></script>
