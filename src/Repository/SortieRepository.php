@@ -6,6 +6,7 @@ use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
+use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,9 +25,14 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Sortie::class);
+        $this->entityManager = $entityManager;
     }
 
 
@@ -91,23 +97,83 @@ class SortieRepository extends ServiceEntityRepository
         return $paginator;
     }
 
-    public function findArchivableSorties()
+    public function updateSortieStates(): void
     {
-        return $this->createQueryBuilder('s')
-            ->where('s.dateHeureDebut < :date')
-            ->setParameter('date', new DateTime('-1 month'))
-            ->getQuery()
-            ->getResult();
+        $sorties = $this->findAll();
+
+        $openState = $this->getStateByLibelle('Ouverte');
+        $closedState = $this->getStateByLibelle('Clôturée');
+        $inProgressState = $this->getStateByLibelle('En cours');
+        $pastState = $this->getStateByLibelle('Passée');
+        $archivedState = $this->getStateByLibelle('Archivée');
+        $currentDateTime = new DateTime();
+
+
+        foreach ($sorties as $sortie) {
+            $endDateTime = clone $sortie->getDateHeureDebut();
+            $endDateTime->add(new DateInterval('PT'. $sortie->getDuree() .'H'));
+
+
+            if ($sortie->getDateLimiteInscription()> $currentDateTime)
+                $sortie->setEtat($openState);
+            if ($sortie->getDateLimiteInscription() < $currentDateTime) {
+                $sortie->setEtat($closedState);
+            } if (($sortie->getDateHeureDebut() <= $currentDateTime) && ($currentDateTime <= $endDateTime)) {
+                $sortie->setEtat($inProgressState);
+            } if ($currentDateTime > $endDateTime) {
+                $sortie->setEtat($pastState);
+            } if ($sortie->getDateHeureDebut() < new DateTime('-1 month')) {
+                $sortie->setEtat($archivedState);
+            }
+
+            $this->entityManager->persist($sortie);
+
+        }
+
     }
 
-    public function findNonArchivedSorties($archivedState)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.etat != :archivedState')
-            ->setParameter('archivedState', $archivedState)
-            ->getQuery()
-            ->getResult();
-    }
+//    public function findArchivableSorties()
+//    {
+//        return $this->createQueryBuilder('s')
+//            ->where('s.dateHeureDebut < :date')
+//            ->setParameter('date', new DateTime('-1 month'))
+//            ->getQuery()
+//            ->getResult();
+//    }
+//
+//    public function findClosedSorties()
+//    {
+//        return $this->createQueryBuilder('s')
+//            ->where(':date < s.dateLimiteInscription')
+//            ->setParameter('date', new DateTime())
+//            ->getQuery()
+//            ->getResult();
+//    }
+//    public function findinProgressSorties()
+//    {
+//        return $this->createQueryBuilder('s')
+//            ->where('s.dateHeureDebut < :date')
+//            ->setParameter('date', new DateTime)
+//            ->getQuery()
+//            ->getResult();
+//    }
+//    public function findPastSorties()
+//    {
+//        return $this->createQueryBuilder('s')
+//            ->where(':date > (s.dateHeureDebut + s.duree)')
+//            ->setParameter('date', new DateTime)
+//            ->getQuery()
+//            ->getResult();
+//    }
+
+    //    public function findNonArchivedSorties($archivedState)
+//    {
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.etat != :archivedState')
+//            ->setParameter('archivedState', $archivedState)
+//            ->getQuery()
+//            ->getResult();
+//    }
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
@@ -133,5 +199,11 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    private function getStateByLibelle($libelle)
+
+    {
+        return $this->entityManager->getRepository(Etat::class)->findOneBy(['libelle' => $libelle]);
+    }
+
 
 }
