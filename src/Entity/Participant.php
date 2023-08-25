@@ -6,6 +6,7 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\Types\Nullable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -25,7 +26,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
     #[Vich\UploadableField(mapping: 'participants', fileNameProperty: 'imageName', size: 'imageSize')]
-    #[ORM\Column(nullable: true)]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
@@ -369,4 +369,42 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-}
+    public function __serialize()
+    {
+        return [
+            'id' => $this->id,
+            "imageName" => $this->imageName,
+            'imageSize'=>$this->imageSize,
+            'updatedAt'=>$this->updatedAt,
+            'pseudo'=>$this->pseudo,
+            'role'=>$this->roles,
+            'password'=>$this->password,
+            'nom'=>$this->nom,
+            'prenom'=>$this->prenom,
+            'telephone'=>$this->telephone,
+            'mail'=>$this->mail,
+            'actif'=>$this->actif,
+            'site'=>$this->site,
+            'sortiesOrganisees'=>$this->sortiesOrganisees,
+            'inscriptions'=>$this->inscriptions
+        ];
+    }
+
+    public function __unserialize(array $data)
+    {
+        $this->id = $data['id'];
+        $this->imageName = $data['imageName'];
+        $this->imageSize = $data['imageSize'];
+        $this->updatedAt = $data['updatedAt'];
+        $this->pseudo = $data['pseudo'];
+        $this->roles = $data['role'];
+        $this->password = $data['password'];
+        $this->nom = $data['nom'];
+        $this->prenom = $data['prenom'];
+        $this->telephone = $data['telephone'];
+        $this->mail = $data['mail'];
+        $this->actif = $data['actif'];
+        $this->site = $data['site'];
+        $this->sortiesOrganisees = $data['sortiesOrganisees'];
+        $this->inscriptions = $data['inscriptions'];
+    }}
