@@ -29,6 +29,7 @@
                     {% endif %}
                     {% if app.user %}
                         <a href="{{ path('app_participant_affichageProfil') }}">Bonjour {{ app.user.pseudo }}</a>
+                        <a href="{{ path('app_sorties_creationSortie') }}">Proposer une sortie</a>
                         <a href="{{ path('app_logout') }}">Se déconnecter</a>
                     {% endif %}
                 </div>
