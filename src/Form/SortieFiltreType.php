@@ -31,7 +31,7 @@ class SortieFiltreType extends AbstractType
                     'choices' => [
                         'Je suis inscrit' => true,
                         'Je ne suis pas inscrit' => false,
-                        'Les deux' => null
+                        'Les deux' => null,
                     ],
                     'expanded' => true,
                 ])
