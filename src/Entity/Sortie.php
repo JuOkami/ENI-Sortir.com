@@ -335,7 +335,7 @@ class Sortie
         $this->updatedAt = $data['updatedAt'];
         $this->nom=$data['nom'];
         $this->dateHeureDebut=$data['dateheuredebut'];
-        $this->duree=$data['duree'];
+       /* $this->duree=$data['duree'];*/
         $this->nbInscriptionsMax = $data['nbinscriptionsmax'];
         $this->infosSortie = $data['infossortie'];
         $this->urlPhoto = $data['urlphoto'];
