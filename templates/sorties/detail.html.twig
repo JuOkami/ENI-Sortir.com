@@ -5,7 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    <img src="{{ sortie.urlphoto }}" alt="Illustration de la sortie">
+    {% if sortie.imageName %}
+        <img src="{{ asset('images/sorties/'~sortie.imageName) }}" alt="">
+    {% endif %}
+    {% if sortie.urlphoto %}
+        <img src="{{ sortie.urlphoto }}" alt="">
+    {% endif %}
     <h3>{{ sortie.nom }}</h3>
     <p> Lieu : {{ sortie.lieu.nom }} à {{ sortie.lieu.ville.nom }}</p>
     <p>Le {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}}

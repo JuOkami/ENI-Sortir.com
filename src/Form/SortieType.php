@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class SortieType extends AbstractType
 {
@@ -27,7 +28,10 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription', DateTimeType::class, ['widget' => 'single_text', 'label' => "Date limite d'inscription : "])
             ->add('nbInscriptionsMax', NumberType::class, ['label'=>'Nombre maximum de participants'])
             ->add('infosSortie', TextareaType::class, ['label'=>'Decrivez votre sortie en quelques mots'])
-            ->add('urlPhoto')
+//            ->add('urlPhoto')
+            ->add('imageFile', VichFileType::class, [
+                'required' => false
+            ])
             ->add('ville', EntityType::class, ['mapped' => false, 'class'=>Ville::class, 'choice_label'=>'nom'])
             ->add('lieu', EntityType::class, ['class'=>Lieu::class, 'choice_label'=>'nom'])
             ->add("Valider", SubmitType::class)
