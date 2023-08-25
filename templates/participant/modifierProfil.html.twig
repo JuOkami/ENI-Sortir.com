@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Modifier votre profil</h1>
+
+    {{ form_errors(modifierProfilForm) }}
+
+    {{ form_start(modifierProfilForm) }}
+    {{ form_row(modifierProfilForm.pseudo) }}
+    {{ form_row(modifierProfilForm.nom) }}
+    {{ form_row(modifierProfilForm.prenom) }}
+    {{ form_row(modifierProfilForm.mail) }}
+    {{ form_row(modifierProfilForm.telephone) }}
+    {{ form_row(modifierProfilForm.site)}}
+
+    <button type="submit" class="btn">Modifier !</button>
+    {{ form_end(modifierProfilForm) }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
