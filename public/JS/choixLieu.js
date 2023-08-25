@@ -13,6 +13,7 @@ function premierSelect() {
     var passageDeValeurs = document.getElementById('passagedevaleurs');
     document.getElementById("sortie_ville").innerHTML="";
     liste = JSON.parse(passageDeValeurs.dataset.liste);
+    console.log(liste);
 
     let blankoption = document.createElement("option");
     blankoption.innerText = "--Selectionnez une ville--"

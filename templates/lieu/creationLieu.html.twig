@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TestController!{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
-{{ form(lieuForm) }}
+    {{ form(lieuForm) }}
     <script src="{{ asset('JS/appelApiAdresses.js') }}"></script>
     <div id="affichage"></div>
 {% endblock %}
