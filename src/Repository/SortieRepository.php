@@ -6,6 +6,7 @@ use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
+use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -100,6 +101,7 @@ class SortieRepository extends ServiceEntityRepository
     {
         $sorties = $this->findAll();
 
+        $openState = $this->getStateByLibelle('Ouverte');
         $closedState = $this->getStateByLibelle('Clôturée');
         $inProgressState = $this->getStateByLibelle('En cours');
         $pastState = $this->getStateByLibelle('Passée');
@@ -107,24 +109,27 @@ class SortieRepository extends ServiceEntityRepository
         $currentDateTime = new DateTime();
 
 
-
         foreach ($sorties as $sortie) {
             $endDateTime = clone $sortie->getDateHeureDebut();
-            $endDateTime->modify('+' . $sortie->getDuree() . ' heures');
+            $endDateTime->add(new DateInterval('PT'. $sortie->getDuree() .'H'));
 
 
+            if ($sortie->getDateLimiteInscription()> $currentDateTime)
+                $sortie->setEtat($openState);
             if ($sortie->getDateLimiteInscription() < $currentDateTime) {
                 $sortie->setEtat($closedState);
-            } if ($sortie->getDateHeureDebut() <= $currentDateTime && $currentDateTime <= $endDateTime) {
+            } if (($sortie->getDateHeureDebut() <= $currentDateTime) && ($currentDateTime <= $endDateTime)) {
                 $sortie->setEtat($inProgressState);
-            } if (new DateTime() > ($sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . ' minutes'))) {
+            } if ($currentDateTime > $endDateTime) {
                 $sortie->setEtat($pastState);
             } if ($sortie->getDateHeureDebut() < new DateTime('-1 month')) {
                 $sortie->setEtat($archivedState);
             }
 
             $this->entityManager->persist($sortie);
+
         }
+
     }
 
 //    public function findArchivableSorties()
