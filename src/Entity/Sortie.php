@@ -7,14 +7,30 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
+#[Vich\Uploadable]
 class Sortie
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[Vich\UploadableField(mapping: 'sorties', fileNameProperty: 'imageName', size: 'imageSize')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $imageName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $imageSize = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -224,4 +240,111 @@ class Sortie
 
         return $this;
     }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(?File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @param string|null $imageName
+     */
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getImageSize(): ?int
+    {
+        return $this->imageSize;
+    }
+
+    /**
+     * @param int|null $imageSize
+     */
+    public function setImageSize(?int $imageSize): void
+    {
+        $this->imageSize = $imageSize;
+    }
+
+    /**
+     * @return \DateTimeImmutable|null
+     */
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $updatedAt
+     */
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+
+
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            "imageName" => $this->imageName,
+            'imageSize'=>$this->imageSize,
+            'updatedAt'=>$this->updatedAt,
+            'nom'=>$this->nom,
+            'dateheuredebut'=>$this->dateHeureDebut,
+            'duree'=>$this->dateLimiteInscription,
+            'nbinscriptionsmax'=>$this->nbInscriptionsMax,
+            'infossortie'=> $this->infosSortie,
+            'urlphoto'=>$this->urlPhoto,
+            'organisateur'=>$this->organisateur,
+            'siteorganisateur'=>$this->siteOrganisateur,
+            'etat'=>$this->etat,
+            'lieu'=>$this->lieu
+            ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->id = $data['id'];
+        $this->imageName = $data['imageName'];
+        $this->imageSize = $data['imageSize'];
+        $this->updatedAt = $data['updatedAt'];
+        $this->nom=$data['nom'];
+        $this->dateHeureDebut=$data['dateheuredebut'];
+        $this->duree=$data['duree'];
+        $this->nbInscriptionsMax = $data['nbinscriptionsmax'];
+        $this->infosSortie = $data['infossortie'];
+        $this->urlPhoto = $data['urlphoto'];
+        $this->organisateur=$data['organisateur'];
+        $this->siteOrganisateur=$data['siteorganisateur'];
+        $this->etat=$data['etat'];
+        $this->lieu=$data['lieu'];
+
+    }
+
+
 }
