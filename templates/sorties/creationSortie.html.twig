@@ -9,13 +9,15 @@
         {{ form_row(sortieForm.dateLimiteInscription) }}
         {{ form_row(sortieForm.nbInscriptionsMax) }}
         {{ form_row(sortieForm.infosSortie) }}
+    {{ form_row(sortieForm.imageFile) }}
 {#        {{ form_row(sortieForm.urlPhoto) }}#}
         {{ form_row(sortieForm.ville) }}
         {{ form_row(sortieForm.lieu) }}
-        <p>Aucun lieu ne vous convient : <a href="{{ path('app_lieu') }}">créez en un nouveau !</a></p>
-    {{ form_end(sortieForm) }}
 
-    <button id="myBtn">Open Modal</button>
+    {{ form_end(sortieForm) }}
+    <p>Aucun lieu ne vous convient : <button id="myBtn">Créez en un nouveau</button></p>
+
+
 
     <div id="myModal" class="modal" style="display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -37,7 +39,7 @@
   float: right;
   font-size: 28px;
   font-weight: bold;">&times;</span>
-            <div>{{ form_start(lieuForm) }}{{ form_end(lieuForm) }}<button id="boutonperso">Bouton perso</button></div>
+            <div>{{ form_start(lieuForm) }}{{ form_end(lieuForm) }}<button id="boutonperso">Enregistrer le lieu</button></div>
         </div>
 
     </div>
