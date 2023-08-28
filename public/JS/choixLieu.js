@@ -5,16 +5,19 @@ window.onload = init;
 
 function init(){
     blankLieux();
+    var passageDeValeurs = document.getElementById('passagedevaleurs');
+    creationListe(JSON.parse(passageDeValeurs.dataset.liste));
     premierSelect();
 
     document.getElementById("sortie_ville").addEventListener("click", miseajourlistelieux);
 }
-function premierSelect() {
-    var passageDeValeurs = document.getElementById('passagedevaleurs');
-    document.getElementById("sortie_ville").innerHTML="";
-    liste = JSON.parse(passageDeValeurs.dataset.liste);
-    console.log(liste);
 
+function creationListe(listeimportee){
+    liste = listeimportee;
+}
+function premierSelect() {
+
+    document.getElementById("sortie_ville").innerHTML="";
     let blankoption = document.createElement("option");
     blankoption.innerText = "--Selectionnez une ville--"
     blankoption.value = 0;

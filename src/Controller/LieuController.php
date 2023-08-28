@@ -34,15 +34,12 @@ class LieuController extends AbstractController
         $entityManager->persist($lieu);
         $entityManager->flush();
 
-        $context = (new ObjectNormalizerContextBuilder())
-            ->withGroups('listeLieux')
-            ->toArray();
-        $liste = $serializer->serialize(
-            $villeRepository->findBy([], ["nom" => "ASC"] ),
-            'json',
-            $context );
-
-        return $this->json($liste, 201);
+        return $this->json(
+            $villeRepository->findBy([], ['nom'=> 'ASC']),
+            201,
+            [],
+            ['groups' => 'listeLieux']
+        );
     }
 
     #[Route('/lieu', name: 'app_lieu')]

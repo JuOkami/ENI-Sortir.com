@@ -31,7 +31,6 @@ window.onclick = function(event) {
 
 function envoiduformulaire() {
 
-    console.log("entree");
     const nom = document.getElementById("lieu_nom").value;
     const rue = document.getElementById("lieu_rue").value;
     const latitude = document.getElementById("lieu_latitude").value;
@@ -53,6 +52,12 @@ function envoiduformulaire() {
             'Accept': 'application/json'
         },
         body: JSON.stringify(data)
-    }).then(r => console.log(r));
+    }).then(reponse => reponse.json())
+        .then(nouvelleListe => {
+            creationListe(nouvelleListe);
+            premierSelect();
+        });
+
+    modal.style.display = "none";
 
 }

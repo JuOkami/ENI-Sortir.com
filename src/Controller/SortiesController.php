@@ -120,18 +120,10 @@ class SortiesController extends AbstractController
             $context );
 
 
-// tentative here
+
         $lieu = new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $lieu);
         $lieuForm->handleRequest($request);
-
-
-        if ($lieuForm->isSubmitted()&&$lieuForm->isValid()){
-            $entityManager->persist($lieu);
-            $entityManager->flush();
-            return $this->json([], 201);
-        }
-        // fin de la tentative
 
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class,$sortie);
