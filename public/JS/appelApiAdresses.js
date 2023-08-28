@@ -35,7 +35,7 @@ function miseajourURL() {
 }
 
 function exploitationDuJason(json){
-    console.log(json);
+
     // document.getElementById("affichage").innerText = json;
 
 }

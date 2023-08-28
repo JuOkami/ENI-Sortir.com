@@ -33,7 +33,7 @@ class LieuType extends AbstractType
                 return $er->createQueryBuilder('ville')
                     ->orderBy('ville.codePostal', 'ASC');
             },])
-            ->add('Valider', SubmitType::class, ['label'=>'Valider le lieu'])
+//            ->add('Valider', SubmitType::class, ['label'=>'Valider le lieu'])
         ;
     }
 

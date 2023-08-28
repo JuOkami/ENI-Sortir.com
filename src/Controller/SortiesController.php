@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
 use App\Form\LieuType;
@@ -108,7 +109,6 @@ class SortiesController extends AbstractController
         ParticipantRepository $participantRepository,
         EtatRepository $etatRepository,
         SerializerInterface $serializer
-
     ): Response
     {
         $context = (new ObjectNormalizerContextBuilder())
@@ -119,19 +119,28 @@ class SortiesController extends AbstractController
             'json',
             $context );
 
-        $sortie = new Sortie();
 
+// tentative here
+        $lieu = new Lieu();
+        $lieuForm = $this->createForm(LieuType::class, $lieu);
+        $lieuForm->handleRequest($request);
+
+
+        if ($lieuForm->isSubmitted()&&$lieuForm->isValid()){
+            $entityManager->persist($lieu);
+            $entityManager->flush();
+            return $this->json([], 201);
+        }
+        // fin de la tentative
+
+        $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
 
-
         if ($sortieForm->isSubmitted()&&$sortieForm->isValid()){
-
-
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setSiteOrganisateur($utilisateur->getSite());
-
             $sortie->setEtat($etatRepository->find(1));
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -141,13 +150,14 @@ class SortiesController extends AbstractController
         return $this->render('sorties/creationSortie.html.twig',
             [
                 "liste" => $listevilleslieux,
-                "sortieForm" => $sortieForm->createView()
+                "sortieForm" => $sortieForm->createView(),
+                "lieuForm" => $lieuForm->createView(),
             ]
         );
     }
 
     #[Route('/{id}', name: '_supressionSortie', methods: ['POST'])]
-    public function supressionSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function suppressionSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
             $entityManager->remove($sortie);
