@@ -14,6 +14,7 @@ use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use App\Services\InscriptionSortieService;
+use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -78,7 +79,10 @@ class SortiesController extends AbstractController
         }
 
         $inscrits = $sortie->getInscriptions();
-        return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits', 'boutonInscription', 'boutonDesistement', 'isinscrit'));
+        $endDateTime = clone $sortie->getDateHeureDebut();
+        $endDateTime->add(new DateInterval('PT'. $sortie->getDuree() .'H'));
+
+        return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits', 'endDateTime', 'boutonInscription', 'boutonDesistement', 'isinscrit'));
     }
 
     #[Route('/inscription/{sortie}', name: '_inscription')]

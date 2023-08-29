@@ -1,51 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
 
-{% endblock %}
 
 {% block body %}
-    {% if sortie.imageName %}
-        <img src="{{ asset('images/sorties/'~sortie.imageName) }}" alt="">
-    {% endif %}
-    {% if sortie.urlphoto %}
-        <img src="{{ sortie.urlphoto }}" alt="">
-    {% endif %}
-    <h3>{{ sortie.nom }}</h3>
-    <p> Lieu : {{ sortie.lieu.nom }} à {{ sortie.lieu.ville.nom }}</p>
-    <p>Le {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}}
-        de {{ sortie.dateheuredebut | date("H:i")}}
-        à -à faire-
-{#        TODO : calculer la date de fin d'une sortie #}
-    </p>
-    <p>Organisé par {{ sortie.organisateur.pseudo }}, rattaché au campus de {{ sortie.siteorganisateur.nom }}</p>
-    <p>{{ sortie.infossortie }}</p>
-    <p>Capacité de l'evenement : {{ sortie.nbinscriptionsmax }} personnes</p>
-    <div>
-        <ul>Ils participent à cet evenement :</ul>
-        {% for inscrit in inscrits %}
-            <li>{{ inscrit.pseudo }}</li>
-        {% endfor %}
+    <h2>{{ sortie.nom }}</h2>
+    <div class="presentationSortie">
+        <div class="colonneSortie">
+            {% if sortie.imageName %}
+                <img class="illussortie" src="{{ asset('images/sorties/'~sortie.imageName) }}" alt="">
+            {% endif %}
+            {% if sortie.urlphoto %}
+                <img class="illussortie" src="{{ sortie.urlphoto }}" alt="">
+            {% endif %}
+
+            <p><i class="fa-solid fa-calendar"></i> {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}}
+                de {{ sortie.dateheuredebut | date("H:i")}}
+                à {{ endDateTime | date("H:i")}}
+        {#        TODO : calculer la date de fin d'une sortie #}
+            </p>
+            <a href="{{ path('app_participant_affichageParticipant',{'participant':sortie.organisateur.id}) }}">
+                <p class="organisateursortie"><i class="fa-solid fa-circle-user"></i> {{ sortie.organisateur.pseudo }}</p>
+            </a>
+            <p><i class="fa-solid fa-circle-question"></i> {{ sortie.infossortie }}</p>
+        </div>
+
+        <div class="colonneSortie">
+            {{ include('sorties/carte.html.twig') }}
+            <p><i class="fa-solid fa-location-pin" ></i> {{ sortie.lieu.nom }} à {{ sortie.lieu.ville.nom }}</p>
+        </div>
+
+        <div class="colonneSortie">
+            {% set placeslibres =  sortie.nbinscriptionsmax - sortie.inscriptions | length %}
+            <p><i class="fa-solid fa-people-group"></i> {{ placeslibres }} places restantes sur {{ sortie.nbinscriptionsmax }} </p>
+
+            <div class="colonneinscription">
+            {% if not app.user %}
+                <p>Pour participer à cette sortie, <a href="{{ path("app_login") }}">connectez-vous</a></p>
+            {% else %}
+                {% if not isinscrit %}
+                    <p>{{ boutonInscription['motif']}}</p>
+                    {% if boutonInscription['inscriptionPossible'] %}
+                        <a class="boutonInscription" type="button" href="{{ path('app_sorties_inscription', {'sortie':sortie.id}) }}">Cliquez ici</a>
+                    {% endif %}
+                {% endif %}
+                {% if isinscrit %}
+                    <p>{{ boutonDesistement['motif']}}</p>
+                    {% if boutonDesistement['desistementPossible'] %}
+                        <a class="boutonInscription" type="button" href="{{ path('app_sorties_desinscription', {'sortie':sortie.id}) }}">Se désister</a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            </div>
+
+            <ul>Déja inscrits :</ul>
+            {% for inscrit in inscrits %}
+                <a href="{{ path('app_participant_affichageParticipant',{'participant':inscrit.id}) }}"><li>{{ inscrit.pseudo }}</li></a>
+            {% endfor %}
+
+        </div>
+
     </div>
-    {% if not app.user %}
-        <p>Pour participer à cette sortie, <a href="{{ path("app_login") }}">connectez-vous</a></p>
-    {% else %}
-        {% if not isinscrit %}
-            <p>{{ boutonInscription['motif']}}</p>
-            {% if boutonInscription['inscriptionPossible'] %}
-                <a type="button" href="{{ path('app_sorties_inscription', {'sortie':sortie.id}) }}">Cliquez ici</a>
-            {% endif %}
-        {% endif %}
-        {% if isinscrit %}
-            <p>{{ boutonDesistement['motif']}}</p>
-            {% if boutonDesistement['desistementPossible'] %}
-                <a type="button" href="{{ path('app_sorties_desinscription', {'sortie':sortie.id}) }}">Se désister</a>
-            {% endif %}
-        {% endif %}
-    {% endif %}
 
 
-    {{ include('sorties/carte.html.twig') }}
+
 
 
     {% if app.user %}

@@ -14,16 +14,29 @@
     {{ form_row(sortieFiltreForm.site) }}
     {{ form_end(sortieFiltreForm) }}
 
-    <h2>Evenements créés par nos utilisateurs</h2>
-    <div>
+    <h2>Évènements créés par nos utilisateurs</h2>
+    <div class="listesorties">
         {% for sortie in sorties %}
             {% if sortie.etat.libelle != 'Archivée' %}
            <a href="{{ path('app_sorties_detail', {'sortie':sortie.id}) }}">
-            <div>
-               <h3>{{ sortie.nom }} <span> : {{ sortie.lieu.nom }}</span></h3>
-                        <p>Prévu le {{ sortie.dateheuredebut | date("d/m/Y", "Europe/Paris")}} à
+            <div class="fichesortie">
+               <h3>{{ sortie.nom }} </h3>
+                <div class="contenufichesortie">
+                    <div class = "textefichesortie">
+                        <p><i class="fa-solid fa-location-pin" ></i> {{ sortie.lieu.nom }}, {{ sortie.lieu.ville.nom }}</p>
+                        <p><i class="fa-solid fa-calendar" ></i> {{ sortie.dateheuredebut | date("d/m/Y", "Europe/Paris")}}
                                     {{ sortie.dateheuredebut | date("H:i")}}</p>
-                <a href="{{ path('app_participant_affichageParticipant',{'participant':sortie.organisateur.id}) }}"> <p>Organisé par {{ sortie.organisateur.pseudo }}</p></a>
+                        <a href="{{ path('app_participant_affichageParticipant',{'participant':sortie.organisateur.id}) }}">
+                            <p class="organisateursortie"><i class="fa-solid fa-circle-user"></i> {{ sortie.organisateur.pseudo }}</p>
+                        </a>
+                    </div>
+                {% if sortie.imageName %}
+                    <img class="imageMiniature" src="{{ asset('images/sorties/'~sortie.imageName) }}" alt="">
+                {% endif %}
+                {% if sortie.urlphoto %}
+                    <img class="imageMiniature" src="{{ sortie.urlphoto }}" alt="">
+                {% endif %}
+                </div>
            </div>
            </a>
             {% endif %}
@@ -32,7 +45,4 @@
 
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}
 

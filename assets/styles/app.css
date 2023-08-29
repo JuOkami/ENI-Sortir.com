@@ -1,3 +1,231 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Original+Surfer&family=Sintony&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 body {
-    background-color: lightgray;
+  margin: 0;
+  background-color: #f8f8f1;
+  color: #1e504f;
+  font-family: "Sintony", sans-serif;
 }
+
+a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.grandtitre {
+  margin-left: 10px;
+  font-family: "Pacifico", cursive;
+  font-size: 3em;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: normal;
+}
+
+h2 {
+  text-align: center;
+  font-family: "Lobster", cursive;
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.2em;
+  text-align: center;
+  font-family: "Lobster", cursive;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+nav {
+  background-image: linear-gradient(to right, rgba(236, 190, 109, 0.36) 0%, #f8e6c7 70%, rgba(236, 190, 109, 0.36) 100%), url("../../public/images/bannière.png");
+  background-size: 200%, 100%;
+  background-position: 0 0, left 35%;
+  font-family: "Lobster", cursive;
+  border-bottom: 1px solid #1e504f;
+  transition: background-position 0.5s;
+  height: 28vh;
+}
+
+.logo {
+  position: relative;
+  left: 0;
+  height: 21vh;
+  z-index: 7;
+  transition: all 0.5s;
+}
+
+.logo:hover {
+  opacity: 0;
+}
+
+.logo2 {
+  height: 21vh;
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  transition: all 0.5s;
+}
+
+nav:hover {
+  background-position: right center, left 35%;
+  transition: background-position 0.5s;
+}
+
+.fichesortie {
+  background-image: linear-gradient(to right, #ecbe6d 0%, #f8e6c7 70%, #ecbe6d 100%);
+  background-size: 200%;
+  border-radius: 10px;
+  border: 2px solid #1e504f;
+  width: 30vw;
+  margin: 1.2vw;
+  font-family: "Sintony", sans-serif;
+  height: 20vh;
+  transition: background-position 0.5s;
+  box-shadow: inset 5px 5px 15px 5px #ecbe6d;
+}
+
+.fichesortie:hover {
+  background-position: right center;
+}
+
+.contenufichesortie {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+}
+
+.textefichesortie {
+  margin: 0;
+  padding: 0;
+  margin-left: 0.8vw;
+  width: 25vw;
+}
+
+.imageMiniature {
+  display: block;
+  overflow: hidden;
+  height: 5vw;
+  width: 10vw;
+  float: right;
+  border-radius: 100%;
+  justify-self: end;
+  margin: 2vw;
+}
+
+.listesorties {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+.navpremiereligne {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nav-zone-liens {
+  text-shadow: 0px 0px 4px white;
+  margin: 10px;
+}
+
+.nav-zone-liens > a {
+  margin-left: 10px;
+  font-size: 1.5em;
+}
+
+.nav-zone-liens > a:hover {
+  text-decoration: underline;
+}
+
+.illussortie {
+  max-height: 30vh;
+  max-width: 30vw;
+  border-radius: 10px;
+  border: 2px solid #1e504f;
+}
+
+.map {
+  max-height: 30vh;
+  max-width: 25vw;
+  border-radius: 10px;
+  border: 2px solid #1e504f;
+}
+
+.colonneSortie {
+  margin-left: 2px;
+  width: 30vw;
+}
+
+.presentationSortie {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.colonneinscription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.boutonInscription {
+  background-color: #1e504f;
+  padding: 6px;
+  color: #ecbe6d;
+  font-weight: bold;
+  font-size: 1.5em;
+  text-align: center;
+  border: 4px inset #1e504f;
+}
+
+input {
+  width: 25vw;
+  border-top: solid 2px #1e504f;
+  border-bottom: solid 2px #1e504f;
+  border-radius: 40px;
+  padding: 5px;
+  outline: none;
+}
+
+select {
+  width: 25vw;
+}
+
+textarea {
+  width: 25vw;
+}
+
+label {
+  width: 25vw;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/*# sourceMappingURL=app.css.map */
