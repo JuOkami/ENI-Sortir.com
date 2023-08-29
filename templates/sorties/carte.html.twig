@@ -13,7 +13,7 @@
 
 
 {% if sortie.lieu.latitude %}
-<div id="map" style="height : 40vh" ></div>
+<div id="map" class="map" style="height : 40vh" ></div>
     <script>
         window.onload = setUpMap({{ sortie.lieu.latitude}}, {{ sortie.lieu.longitude }});
     </script>

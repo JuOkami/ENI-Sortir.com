@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://kit.fontawesome.com/71966fa12c.js" crossorigin="anonymous"></script>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <title>{% block title %}Ya Quoi A Faire ?{% endblock %}</title>
+
+        <link rel="icon" href="{{ asset('icones/android-chrome-512x512.png')}}">
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -16,26 +18,31 @@
     <body>
     <header>
         <nav>
-            <div>
+            <div class="navpremiereligne">
                 <div>
-                    <h1>Sortir.com</h1>
+{#                    <h1 class="grandtitre">YaQuoiAFaire</h1>#}
+                    <img class="logo" src="{{ asset('images/Logo YaQuoiAFaire_preview_rev_1.png') }}">
+                    <img class="logo2" src="{{ asset('images/Logo YaQuoiAFaire verso.png') }}">
                     <!-- Ajoutez ceci où vous voulez afficher la date et l'heure actuelles -->
-                    <p>Heure actuelle : {{ "now"|date("Y-m-d H:i:s") }}</p>
+{#                    <p>Heure actuelle : {{ "now"|date("Y-m-d H:i:s") }}</p>#}
 
                 </div>
-                <div>
+                <div class="nav-zone-liens">
                     {% if not app.user %}
                         <a href="{{ path('app_login') }}">Se connecter</a>
                     {% endif %}
                     {% if app.user %}
                         <a href="{{ path('app_participant_affichageProfil') }}">Bonjour {{ app.user.pseudo }}</a>
-                        <a href="{{ path('app_sorties_creationSortie') }}">Proposer une sortie</a>
+
                         <a href="{{ path('app_logout') }}">Se déconnecter</a>
                     {% endif %}
                 </div>
             </div>
-            <div>
+            <div class="nav-zone-liens">
                 <a href="{{ path('app_sorties_list') }}">Accueil</a>
+                {% if app.user %}
+                <a href="{{ path('app_sorties_creationSortie') }}">Proposer une sortie</a>
+                {% endif %}
             </div>
         </nav>
     </header>
