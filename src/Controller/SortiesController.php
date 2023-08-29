@@ -39,6 +39,9 @@ class SortiesController extends AbstractController
     {
         if ($this->getUser()){
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+            if (!$utilisateur->isActif()) {
+                return $this->redirectToRoute('app_logout');
+            }
         } else {
             $utilisateur = null;
         }
@@ -81,6 +84,12 @@ class SortiesController extends AbstractController
     #[Route('/inscription/{sortie}', name: '_inscription')]
     public function inscriptionSortie(Sortie $sortie, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
+        // Vérifiez si la sortie est en état "Annulée"
+        if ($sortie->getEtat()->getId() === 6) {
+            $this->addFlash('error', "L'inscription à cette sortie n'est pas possible car elle est annulée.");
+            return $this->redirectToRoute('app_sorties_detail', ["sortie" => $sortie->getId()]);
+        }
+
         $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
         $sortie->addInscription($utilisateur);
         $entityManager->persist($sortie);
@@ -148,11 +157,22 @@ class SortiesController extends AbstractController
         );
     }
 
-    #[Route('/{id}', name: '_supressionSortie', methods: ['POST'])]
-    public function suppressionSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+
+    #[Route('/{id}', name: '_annuleeSortie', methods: ['POST'])]
+    public function annuleeSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+
     {
         if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($sortie);
+            $etatAnnulee = $entityManager->getRepository(Etat::class)->find(6);
+            $sortie->setEtat($etatAnnulee);
+
+            // Détacher tous les participants de la sortie
+            foreach ($sortie->getInscriptions() as $participant) {
+                $sortie->removeInscription($participant);
+                $participant->removeInscription($sortie);
+            }
+
+            $entityManager->persist($sortie);
             $entityManager->flush();
         }
 
