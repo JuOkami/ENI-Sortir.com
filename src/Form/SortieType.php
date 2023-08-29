@@ -30,7 +30,8 @@ class SortieType extends AbstractType
             ->add('infosSortie', TextareaType::class, ['label'=>'Decrivez votre sortie en quelques mots'])
 //            ->add('urlPhoto')
             ->add('imageFile', VichFileType::class, [
-                'required' => false
+                'required' => false,
+                'label'=> "Photo de l'evenement"
             ])
             ->add('ville', EntityType::class, ['mapped' => false, 'class'=>Ville::class, 'choice_label'=>'nom'])
             ->add('lieu', EntityType::class, ['class'=>Lieu::class, 'choice_label'=>'nom'])

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
 use App\Form\LieuType;
@@ -117,7 +118,6 @@ class SortiesController extends AbstractController
         ParticipantRepository $participantRepository,
         EtatRepository $etatRepository,
         SerializerInterface $serializer
-
     ): Response
     {
         $context = (new ObjectNormalizerContextBuilder())
@@ -128,19 +128,20 @@ class SortiesController extends AbstractController
             'json',
             $context );
 
-        $sortie = new Sortie();
 
+
+        $lieu = new Lieu();
+        $lieuForm = $this->createForm(LieuType::class, $lieu);
+        $lieuForm->handleRequest($request);
+
+        $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieForm->handleRequest($request);
 
-
         if ($sortieForm->isSubmitted()&&$sortieForm->isValid()){
-
-
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setSiteOrganisateur($utilisateur->getSite());
-
             $sortie->setEtat($etatRepository->find(1));
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -150,13 +151,16 @@ class SortiesController extends AbstractController
         return $this->render('sorties/creationSortie.html.twig',
             [
                 "liste" => $listevilleslieux,
-                "sortieForm" => $sortieForm->createView()
+                "sortieForm" => $sortieForm->createView(),
+                "lieuForm" => $lieuForm->createView(),
             ]
         );
     }
 
+
     #[Route('/{id}', name: '_annuleeSortie', methods: ['POST'])]
     public function annuleeSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+
     {
         if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
             $etatAnnulee = $entityManager->getRepository(Etat::class)->find(6);

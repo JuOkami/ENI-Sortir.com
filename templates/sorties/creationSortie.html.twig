@@ -9,14 +9,44 @@
         {{ form_row(sortieForm.dateLimiteInscription) }}
         {{ form_row(sortieForm.nbInscriptionsMax) }}
         {{ form_row(sortieForm.infosSortie) }}
+    {{ form_row(sortieForm.imageFile) }}
 {#        {{ form_row(sortieForm.urlPhoto) }}#}
         {{ form_row(sortieForm.ville) }}
         {{ form_row(sortieForm.lieu) }}
-        <p>Aucun lieu ne vous convient : <a href="{{ path('app_lieu') }}">créez en un nouveau !</a></p>
+
     {{ form_end(sortieForm) }}
+    <p>Aucun lieu ne vous convient : <button id="myBtn">Créez en un nouveau</button></p>
+
+
+
+    <div id="myModal" class="modal" style="display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */">
+        <!-- Modal content -->
+        <div class="modal-content" style="background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */">
+            <span class="close" style="color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;">&times;</span>
+            <div>{{ form_start(lieuForm) }}{{ form_end(lieuForm) }}<button id="boutonperso">Enregistrer le lieu</button></div>
+        </div>
+
+    </div>
 
     <div style="display : none" id="passagedevaleurs" data-liste="{{ liste }}" ></div>
     <script src="{{ asset('JS/choixLieu.js') }}"></script>
+    <script src="{{ asset('JS/ouvertureDeModale.js') }}"></script>
 
 
 {% endblock %}
