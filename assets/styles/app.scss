@@ -1,0 +1,258 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Original+Surfer&family=Sintony&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+// couleurs
+$couleur1 : #f8f8f1;
+$couleur2 : #ecbe6d;
+$couleur3 : #67013a;
+$couleur4 : #1e504f;
+$couleur5 : #000032;
+
+$couleur2transparente : rgba(236,190,109,0.36);
+
+$policedetitre : 'Pacifico', cursive;
+$policedemenu: 'Lobster', cursive;
+$policedetexte : 'Sintony', sans-serif;
+
+//@font-face{
+// font-family : 'Bahama Nights';
+//    src : local("Bahama Nights.otf") format ("opentype");
+//}
+
+body {
+    margin : 0;
+    background-color: $couleur1;
+    color : $couleur4;
+    font-family: $policedetexte;
+}
+
+a{
+    text-decoration: inherit;
+    color : inherit;
+}
+
+.grandtitre{
+    margin-left: 10px;
+    font-family: $policedetitre;
+    font-size: 3em;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+h2 {
+    text-align: center;
+    font-family: $policedemenu;
+    font-size : 2em;
+}
+
+h3 {
+    font-size : 1.2em;
+    text-align: center;
+    font-family : $policedemenu;
+    margin-top : 10px;
+    margin-bottom : 5px;
+}
+
+h4 {
+
+}
+
+nav {
+    background-image: linear-gradient(to right, $couleur2transparente 0%, lighten($couleur2, 20%)  70%, $couleur2transparente 100%),
+                        url("../../public/images/bannière.png") ;
+    background-size: 200%, 100%;
+    background-position: 0 0 , left 35%;
+    font-family: $policedemenu;
+    //border-top : 1px solid $couleur4;
+    border-bottom  : 1px solid $couleur4;
+    //border-radius: 20px;
+    transition: background-position 0.5s;
+    height: 28vh;
+}
+
+.logo{
+    position : relative;
+    left : 0;
+    height: 21vh;
+    z-index : 7;
+    transition: all 0.5s;
+}
+
+.logo:hover{
+    opacity: 0;
+}
+
+.logo2{
+    height : 21vh;
+    position : absolute;
+    left : 0;
+    z-index : 1;
+    transition: all 0.5s;
+}
+
+nav:hover{
+    background-position: right center, left 35%;
+    transition: background-position 0.5s;
+}
+
+.fichesortie{
+    background-image: linear-gradient(to right, $couleur2 0%, lighten($couleur2, 20%)  70%, $couleur2 100%);
+    background-size: 200%;
+    border-radius: 10px;
+    border : 2px solid $couleur4;
+    width : 30vw;
+    margin : 1.2vw;
+    font-family: $policedetexte;
+    height: 20vh;
+    transition: background-position 0.5s;
+    box-shadow: inset 5px 5px 15px 5px $couleur2;
+}
+
+.fichesortie:hover{
+    background-position: right center;
+}
+
+.contenufichesortie{
+    padding : 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin : 0;
+}
+
+.textefichesortie{
+    margin : 0;
+    padding: 0;
+    margin-left: 0.8vw;
+    width: 25vw;
+}
+
+.imageMiniature{
+    display: block;
+    overflow: hidden;
+    height: 5vw;
+    width: 10vw;
+    float : right;
+    border-radius: 100%;
+    justify-self: end;
+    margin : 2vw;
+}
+
+.listesorties{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.navpremiereligne{
+    display : flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nav-zone-liens{
+    text-shadow : 0px 0px 4px white ;
+    margin: 10px;
+}
+
+.nav-zone-liens>a{
+    margin-left: 10px;
+    font-size: 1.5em;
+}
+
+.nav-zone-liens>a:hover{
+    text-decoration: underline;
+}
+
+
+.illussortie{
+    max-height: 30vh;
+    max-width: 30vw;
+    border-radius: 10px;
+    border : 2px solid $couleur4;
+}
+
+.map{
+    max-height: 30vh;
+    max-width: 25vw;
+    border-radius: 10px;
+    border : 2px solid $couleur4;
+}
+
+.colonneSortie{
+    margin-left: 2px;
+    width: 30vw;
+}
+
+.presentationSortie{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.colonneinscription{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.boutonInscription{
+    background-color: $couleur4;
+    padding : 6px;
+    color : $couleur2;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+    border: 4px inset $couleur4;
+
+}
+
+input{
+    width : 25vw;
+    border-top : solid 2px $couleur4;
+    border-bottom: solid 2px $couleur4;
+    border-radius: 40px;
+    padding: 5px;
+    outline: none;
+}
+
+select{
+    width : 25vw;
+}
+
+textarea {
+    width : 25vw;
+}
+
+label{
+    width : 25vw;
+}
+
+form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+form{
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+
+.modal{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4);
+}
