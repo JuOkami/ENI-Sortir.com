@@ -27,6 +27,17 @@ body {
     font-family: $policedetexte;
 }
 
+main{
+    min-height: 70vh;
+}
+
+footer{
+    text-align: center;
+    background-color: $couleur1;
+    color : $couleur4;
+    font-family: $policedetexte;
+}
+
 a{
     text-decoration: inherit;
     color : inherit;
@@ -68,50 +79,50 @@ nav {
     //border-top : 1px solid $couleur4;
     border-bottom  : 1px solid $couleur4;
     //border-radius: 20px;
-    transition: background-position 0.5s;
+    transition: background-position 0.1s;
     height: 28vh;
+    &:hover{
+        background-position: right center, left 35%;
+        transition: background-position 0.5s;
+    }
 }
 
 .logo{
     position : relative;
     left : 0;
-    height: 21vh;
+    max-height: 21vh;
     z-index : 7;
-    transition: all 0.5s;
-}
-
-.logo:hover{
-    opacity: 0;
+    transition: opacity 0.5s;
+    &:hover{
+        opacity: 0;
+    }
 }
 
 .logo2{
-    height : 21vh;
+    max-height : 21vh;
     position : absolute;
     left : 0;
     z-index : 1;
-    transition: all 0.5s;
 }
 
-nav:hover{
-    background-position: right center, left 35%;
-    transition: background-position 0.5s;
-}
 
 .fichesortie{
     background-image: linear-gradient(to right, $couleur2 0%, lighten($couleur2, 20%)  70%, $couleur2 100%);
     background-size: 200%;
     border-radius: 10px;
     border : 2px solid $couleur4;
+    //width: 400px;
     width : 30vw;
+    //min-width: 300px;
+    //width : max(30vw, 300px);
     margin : 1.2vw;
     font-family: $policedetexte;
-    height: 20vh;
+    height: 190px;
     transition: background-position 0.5s;
     box-shadow: inset 5px 5px 15px 5px $couleur2;
-}
-
-.fichesortie:hover{
-    background-position: right center;
+    &:hover{
+        background-position: right center;
+    }
 }
 
 .contenufichesortie{
@@ -211,21 +222,33 @@ nav:hover{
     border: 4px inset $couleur4;
 }
 
-input{
-    width : 25vw;
+@mixin champs{
+    font-family: $policedetexte;
+    width : 40vw;
     border-top : solid 2px $couleur4;
     border-bottom: solid 2px $couleur4;
+    border-left: 0px;
+    border-right: 0px;
     border-radius: 40px;
     padding: 5px;
-    outline: none;
+    margin-bottom: 5px;
+    &:focus{
+        border-color : $couleur2;
+        outline : none;
+    }
+}
+
+input{
+   @include champs;
 }
 
 select{
-    width : 25vw;
+    @include champs;
 }
 
 textarea {
-    width : 25vw;
+    @include champs;
+    line-height: 4;
 }
 
 label{
@@ -235,13 +258,42 @@ label{
 form > div {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 form{
+    width: 60vw;
     margin-left: 5px;
     margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+.vich-file{
+    margin-left: 5px;
+}
+
+.zoneFormulairesortie{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+button{
+    @include champs;
+    width: 10vw;
+    background-color: darken($couleur1, 10%);
+    background-image : linear-gradient(90deg, darken($couleur1, 10%) 45%, $couleur2 50%, $couleur2 55%);
+    background-size: 210%;
+    transition: background-color 0.3s, background-position 0.3s;
+    &:hover{
+        background-color: darken($couleur1, 20%);
+        background-position: right center, left 100%;
+
+    }
+
+}
 
 .modal{
     display: none; /* Hidden by default */
@@ -254,4 +306,48 @@ form{
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content{
+    background-color: $couleur1;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid $couleur4;
+    border-radius: 20px;
+    width: 60vw; /* Could be more or less, depending on screen size */
+}
+
+.close{
+    color: lighten($couleur4, 20%);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    &:hover {
+        cursor: pointer;
+        color : darken($couleur4, 20%);
+    }
+}
+
+.zonederecherche{
+    background-color: $couleur2;
+    padding-left: 5vw;
+    font-size: 1.5em;
+}
+
+.formulairederecherche{
+    display: none;
+    scale : (0, 0);
+    transition: all 2s;
+}
+
+
+
+@media screen and (max-width: 780px){
+    .listesorties{
+        flex-direction: column;
+    }
+
+    .fichesortie {
+        width: 80vw;
+    }
 }

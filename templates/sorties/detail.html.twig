@@ -30,32 +30,45 @@
         </div>
 
         <div class="colonneSortie">
-            {% set placeslibres =  sortie.nbinscriptionsmax - sortie.inscriptions | length %}
-            <p><i class="fa-solid fa-people-group"></i> {{ placeslibres }} places restantes sur {{ sortie.nbinscriptionsmax }} </p>
+            {% if sortie.etat.id != 6 %}
+                {% set placeslibres =  sortie.nbinscriptionsmax - sortie.inscriptions | length %}
+                <p><i class="fa-solid fa-people-group"></i> {{ placeslibres }} places restantes
+                    sur {{ sortie.nbinscriptionsmax }} </p>
 
-            <div class="colonneinscription">
-            {% if not app.user %}
-                <p>Pour participer à cette sortie, <a href="{{ path("app_login") }}">connectez-vous</a></p>
+                <div class="colonneinscription">
+
+                    {% if not app.user %}
+                        <p>Pour participer à cette sortie, <a href="{{ path("app_login") }}">connectez-vous</a></p>
+                    {% else %}
+                        {% if not isinscrit %}
+                            <p>{{ boutonInscription['motif'] }}</p>
+                            {% if boutonInscription['inscriptionPossible'] %}
+                                <a href="{{ path('app_sorties_inscription', {'sortie':sortie.id}) }}">
+                                    <button>Cliquez ici</button>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        {% if isinscrit %}
+                            <p>{{ boutonDesistement['motif'] }}</p>
+                            {% if boutonDesistement['desistementPossible'] %}
+                                <a href="{{ path('app_sorties_desinscription', {'sortie':sortie.id}) }}">
+                                    <button>Se désister</button>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+
+                <ul>Déja inscrits :</ul>
+                {% for inscrit in inscrits %}
+                    <a href="{{ path('app_participant_affichageParticipant',{'participant':inscrit.id}) }}">
+                        <li>{{ inscrit.pseudo }}</li>
+                    </a>
+                {% endfor %}
             {% else %}
-                {% if not isinscrit %}
-                    <p>{{ boutonInscription['motif']}}</p>
-                    {% if boutonInscription['inscriptionPossible'] %}
-                        <a class="boutonInscription" type="button" href="{{ path('app_sorties_inscription', {'sortie':sortie.id}) }}">Cliquez ici</a>
-                    {% endif %}
-                {% endif %}
-                {% if isinscrit %}
-                    <p>{{ boutonDesistement['motif']}}</p>
-                    {% if boutonDesistement['desistementPossible'] %}
-                        <a class="boutonInscription" type="button" href="{{ path('app_sorties_desinscription', {'sortie':sortie.id}) }}">Se désister</a>
-                    {% endif %}
-                {% endif %}
+                <p>Cette sortie a été annulée par son organisateur.</p>
             {% endif %}
-            </div>
-
-            <ul>Déja inscrits :</ul>
-            {% for inscrit in inscrits %}
-                <a href="{{ path('app_participant_affichageParticipant',{'participant':inscrit.id}) }}"><li>{{ inscrit.pseudo }}</li></a>
-            {% endfor %}
 
         </div>
 
@@ -65,7 +78,7 @@
 
 
 
-    {% if app.user %}
+    {% if (app.user) and (sortie.etat.id != 6) %}
         {% if app.user.id==sortie.organisateur.id %}
             {{ include('sorties/annuleeSortie.html.twig') }}
         {% endif %}

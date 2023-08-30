@@ -3,41 +3,49 @@
 {% block body %}
 
     <h2>Proposer une nouvelle sortie</h2>
+    <div class="zoneFormulairesortie">
+        {{ form_start(sortieForm) }}
 
-    {{ form_start(sortieForm) }}
         {{ form_row(sortieForm.nom) }}
         {{ form_row(sortieForm.dateHeureDebut) }}
         {{ form_row(sortieForm.duree) }}
         {{ form_row(sortieForm.dateLimiteInscription) }}
         {{ form_row(sortieForm.nbInscriptionsMax) }}
         {{ form_row(sortieForm.infosSortie) }}
-    {{ form_row(sortieForm.imageFile) }}
-{#        {{ form_row(sortieForm.urlPhoto) }}#}
+        {{ form_row(sortieForm.imageFile) }}
+        {#        {{ form_row(sortieForm.urlPhoto) }} #}
         {{ form_row(sortieForm.ville) }}
         {{ form_row(sortieForm.lieu) }}
 
-    {{ form_end(sortieForm) }}
-    <p>Aucun lieu ne vous convient : <button id="myBtn">Créez en un nouveau</button></p>
+        {{ form_end(sortieForm) }}
+
+        <div style="margin-top : 50vh">
+            <p>Aucun lieu ne vous convient ? </p>
+            <button id="myBtn">Créez en un nouveau !</button>
+        </div>
+    </div>
 
 
-
-    <div id="myModal" class="modal" >
+    <div id="myModal" class="modal">
         <!-- Modal content -->
-        <div class="modal-content" style="background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */">
-            <span class="close" style="color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;">&times;</span>
-            <div>{{ form_start(lieuForm) }}{{ form_end(lieuForm) }}<button id="boutonperso">Enregistrer le lieu</button></div>
+        <div class="modal-content">
+            <span class="close" style=>&times;</span>
+            <h2>Créer un nouveau lieu</h2>
+            <div>{{ form_start(lieuForm) }}
+                {{ form_row(lieuForm.nom) }}
+                {{ form_row(lieuForm.rue) }}
+                {{ form_row(lieuForm.latitude) }}
+                {{ form_row(lieuForm.longitude) }}
+                {{ form_row(lieuForm.ville) }}
+                {{ form_end(lieuForm) }}
+                <button style="margin-left : 20vw; margin-top : 5px" id="boutonperso">Enregistrer le lieu</button>
+
+            </div>
         </div>
 
     </div>
 
-    <div style="display : none" id="passagedevaleurs" data-liste="{{ liste }}" ></div>
+    <div style="display : none" id="passagedevaleurs" data-liste="{{ liste }}"></div>
     <script src="{{ asset('JS/choixLieu.js') }}"></script>
     <script src="{{ asset('JS/ouvertureDeModale.js') }}"></script>
 
