@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class LieuController extends AbstractController
 {
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/enregistrerLieu', name : 'enregistrerLieu', methods : ['POST'])]
     public function enregistrerLieu(
         Request $request,
@@ -42,6 +44,7 @@ class LieuController extends AbstractController
         );
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/lieu', name: 'app_lieu')]
     public function creationLieu(
         Request $request,

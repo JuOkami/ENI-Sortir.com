@@ -15,11 +15,14 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
+
+#[IsGranted('ROLE_USER')]
 #[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
 {
@@ -34,6 +37,8 @@ class ResetPasswordController extends AbstractController
     /**
      * Display & process form to request a password reset.
      */
+
+    #[IsGranted('ROLE_USER')]
     #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
@@ -56,6 +61,8 @@ class ResetPasswordController extends AbstractController
     /**
      * Confirmation page after a user has requested a password reset.
      */
+
+    #[IsGranted('ROLE_USER')]
     #[Route('/check-email', name: 'app_check_email')]
     public function checkEmail(): Response
     {

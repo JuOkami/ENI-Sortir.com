@@ -24,6 +24,8 @@ class SortieCrudController extends AbstractCrudController
             yield TextEditorField::new('infosSortie'),
             yield AssociationField::new('organisateur'),
         ];
+
+        
     }
 
 }

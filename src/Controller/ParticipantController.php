@@ -12,15 +12,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_USER')]
 #[Route('/', name: 'app_participant')]
 class ParticipantController extends AbstractController
 {
+    #[IsGranted('ROLE_USER')]
     #[Route('/affichageParticipant/{participant}', name: '_affichageParticipant')]
     public function affichageParticipant(Participant $participant): Response
     {
         return $this->render('participant/participant.html.twig', compact('participant'));
     }
+    #[IsGranted('ROLE_USER')]
     #[Route('/affichageProfil', name: '_affichageProfil')]
     public function affichageUser(): Response
     {
@@ -32,6 +36,7 @@ class ParticipantController extends AbstractController
         return $this->render('participant/profilUser.html.twig', compact('participant'));
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/modifierProfil', name: 'modifier_profil')]
     public function modifierProfil( Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
