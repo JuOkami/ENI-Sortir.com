@@ -1,5 +1,6 @@
 let barre = document.getElementById("zonederecherche");
 let etat = false;
+document.getElementById("formulairederecherche").style.display = "none";
 console.log('bienvenue dans le script');
 console.log(barre);
 

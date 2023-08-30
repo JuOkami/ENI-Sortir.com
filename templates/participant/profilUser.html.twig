@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Mon profil</h1>
+    <h2>Mon profil</h2>
+    <div class="presentationprofil">
     {% if app.user.imageName %}
-        <img src="{{ asset('images/participants/'~app.user.imageName) }}" alt="Photo de profil">
+        <img class="illussortie" src="{{ asset('images/participants/'~app.user.imageName) }}" alt="Photo de profil">
     {% endif %}
 
     <p>Pseudo : {{ participant.pseudo }}</p>
@@ -19,5 +20,6 @@
 
     <a href="{{ path('app_participantmodifier_profil') }}"><button>Modifier votre profil</button></a>
     <a href="{{ path('app_forgot_password_request') }}"><button>Nouveau mot de passe</button></a>
+    </div>
 {% endblock %}
 

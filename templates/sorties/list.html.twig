@@ -11,10 +11,16 @@
     {{ form_row(sortieFiltreForm.dateMin) }}
     {{ form_row(sortieFiltreForm.dateMax) }}
     {% if app.user %}
+        <div class="champspeciaux">
     {{ form_row(sortieFiltreForm.isOrganisateur) }}
+        </div>
+        <div class="champspeciaux">
     {{ form_row(sortieFiltreForm.isInscrit) }}
+        </div>
     {% endif %}
+        <div class="champspeciaux">
     {{ form_row(sortieFiltreForm.isPasse) }}
+        </div>
     {{ form_row(sortieFiltreForm.site) }}
     {{ form_end(sortieFiltreForm) }}
     </div>

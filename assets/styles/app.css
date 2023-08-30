@@ -331,6 +331,7 @@ button:hover {
   background-color: #ecbe6d;
   padding-left: 5vw;
   font-size: 1.5em;
+  cursor: pointer;
 }
 
 .formulairederecherche {
@@ -339,13 +340,65 @@ button:hover {
   transition: all 2s;
 }
 
+.champspeciaux > div {
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.champspeciaux > div > div {
+  width: 20vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+input[type=radio] {
+  width: 15px;
+}
+
+input[type=checkbox] {
+  width: 15px;
+}
+
+.presentationprofil {
+  margin-left: 3vw;
+}
+
 @media screen and (max-width: 780px) {
   .listesorties {
     flex-direction: column;
-    background-color: blue;
   }
   .fichesortie {
     width: 80vw;
+    height: 320px;
+  }
+  .contenufichesortie {
+    flex-direction: column;
+    width: 80vw;
+  }
+  .textefichesortie {
+    width: 70vw;
+  }
+  .imageMiniature {
+    width: 70vw;
+    max-width: 70vw;
+    height: 15vh;
+  }
+  .presentationSortie {
+    display: flex;
+    flex-direction: column;
+  }
+  .colonneSortie {
+    width: 80vw;
+  }
+  .map {
+    width: 80vw;
+    max-width: 80vw;
+  }
+  button {
+    width: 60vw;
   }
 }
 

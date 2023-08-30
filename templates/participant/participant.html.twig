@@ -2,10 +2,10 @@
 
 {% block body %}
     <div class="profil">
-<H1> {{ participant.pseudo }}</H1>
+<h2> {{ participant.pseudo }}</h2>
 
         {% if participant.imageName %}
-            <img src="{{ asset('images/participants/'~participant.imageName) }}" alt="">
+            <img class="illussortie" src="{{ asset('images/participants/'~participant.imageName) }}" alt="">
         {% endif %}
         <ul>
             <li>Prenom : {{ participant.prenom }}</li>
