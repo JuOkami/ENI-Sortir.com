@@ -15,7 +15,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+#[UniqueEntity(fields: ['pseudo'], message: 'Le pseudo est déja utilisé par un autre utilisateur.')]
+#[UniqueEntity(fields: ['mail'], message: 'Le mail est déja utilisé par un autre utilisateur.')]
 #[Vich\Uploadable]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -57,7 +58,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 15, nullable: true)]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 60, unique: true)]
     private ?string $mail = null;
 
     #[ORM\Column]
