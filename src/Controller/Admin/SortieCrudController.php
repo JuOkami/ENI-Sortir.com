@@ -27,7 +27,7 @@ class SortieCrudController extends AbstractCrudController
             yield NumberField::new('duree'),
             yield DateField::new('date_limite_inscription'),
             yield NumberField::new('nb_inscriptions_max'),
-            yield TextEditorField::new('infosSortie'),
+            yield TextField::new('infosSortie'),
             yield TextField::new('url_photo'),
             yield AssociationField::new('organisateur'),
             yield AssociationField::new('inscriptions'),
