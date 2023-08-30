@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Lieu;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
 use App\Form\LieuType;
@@ -31,7 +32,7 @@ use function Symfony\Component\Clock\now;
 class SortiesController extends AbstractController
 {
 
-    #[Route('/list', name: '_list')]
+    #[Route('/', name: '_list')]
     public function listSortie(
         SortieRepository $sortieRepository,
         ParticipantRepository $participantRepository,
@@ -45,7 +46,7 @@ class SortiesController extends AbstractController
                 return $this->redirectToRoute('app_logout');
             }
         } else {
-            $utilisateur = null;
+            $utilisateur = new Participant();
         }
 
         $sortieFiltre = new SortieFiltre();
@@ -63,6 +64,12 @@ class SortiesController extends AbstractController
             "sorties" => $sorties,
             "sortieFiltreForm" => $sortieFiltreForm->createView()
         ]);
+    }
+
+    #[Route('/aboutus', name: '_aboutus')]
+    public function aboutus(): Response
+    {
+       return $this->render('sorties/aboutus.html.twig');
     }
 
     #[IsGranted('ROLE_USER')]
