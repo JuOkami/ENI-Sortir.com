@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use App\Repository\ParticipantRepository;
 
 class SecurityAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -22,18 +23,40 @@ class SecurityAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(
+        private ParticipantRepository $participantRepository,
+        private UrlGeneratorInterface $urlGenerator
+    )
     {
     }
 
     public function authenticate(Request $request): Passport
     {
-        $pseudo = $request->request->get('pseudo', '');
+        $mail = $request->request->get('pseudo', '');
+        /*dd($mail);*/
+        $request->getSession()->set(Security::LAST_USERNAME, $mail);
 
-        $request->getSession()->set(Security::LAST_USERNAME, $pseudo);
-
+        if (str_contains($mail, '@')) {
+            // C'est un email
+            $participant = $this->participantRepository->findOneBy(['mail' => $mail]);
+        } else {
+            // C'est un nom d'utilisateur
+            $participant = $this->participantRepository->findOneBy(['pseudo' => $mail]);
+        }
+        if ($participant==null){
+            return new Passport(
+            new UserBadge($mail),
+                /*new UserBadge($participant->getMail()),*/
+                new PasswordCredentials($request->request->get('password', '')),
+                [
+                    new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                    new RememberMeBadge(),
+                ]
+            );
+        }
         return new Passport(
-            new UserBadge($pseudo),
+            //new UserBadge($mail),
+            new UserBadge($participant->getMail()),
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
