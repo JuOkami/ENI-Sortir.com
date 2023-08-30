@@ -342,6 +342,7 @@ button:hover {
 @media screen and (max-width: 780px) {
   .listesorties {
     flex-direction: column;
+    background-color: blue;
   }
   .fichesortie {
     width: 80vw;

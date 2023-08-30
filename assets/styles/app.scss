@@ -15,10 +15,6 @@ $policedetitre : 'Pacifico', cursive;
 $policedemenu: 'Lobster', cursive;
 $policedetexte : 'Sintony', sans-serif;
 
-//@font-face{
-// font-family : 'Bahama Nights';
-//    src : local("Bahama Nights.otf") format ("opentype");
-//}
 
 body {
     margin : 0;
@@ -345,6 +341,7 @@ button{
 @media screen and (max-width: 780px){
     .listesorties{
         flex-direction: column;
+        background-color: blue;
     }
 
     .fichesortie {
