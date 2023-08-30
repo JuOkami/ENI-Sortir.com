@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use Symfony\Component\Serializer\SerializerInterface;
 use function Symfony\Component\Clock\now;
@@ -64,6 +65,7 @@ class SortiesController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/detail/{sortie}', name: '_detail')]
     public function detailSortie(Sortie $sortie, InscriptionSortieService $inscriptionSortieService, ParticipantRepository $participantRepository): Response
     {
@@ -85,6 +87,7 @@ class SortiesController extends AbstractController
         return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits', 'endDateTime', 'boutonInscription', 'boutonDesistement', 'isinscrit'));
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/inscription/{sortie}', name: '_inscription')]
     public function inscriptionSortie(Sortie $sortie, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
@@ -102,6 +105,7 @@ class SortiesController extends AbstractController
         return $this->redirectToRoute('app_sorties_detail', ["sortie" => $sortie->getId()]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/desinscription/{sortie}', name: '_desinscription')]
     public function desinscriptionSortie(Sortie $sortie, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
@@ -113,6 +117,7 @@ class SortiesController extends AbstractController
         return $this->redirectToRoute('app_sorties_detail', ["sortie" => $sortie->getId()]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/creationSortie', name: '_creationSortie')]
     public function creationSortie (
         EntityManagerInterface $entityManager,
@@ -162,6 +167,7 @@ class SortiesController extends AbstractController
     }
 
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/{id}', name: '_annuleeSortie', methods: ['POST'])]
     public function annuleeSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
 
