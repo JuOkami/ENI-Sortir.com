@@ -2,6 +2,10 @@
 
 {% block body %}
 
+    <div class="zonederecherche" id="zonederecherche">
+        <p><i class="fa-solid fa-chevron-right"></i> Rechercher une sortie</p>
+    </div>
+    <div class="formulairederecherche" id="formulairederecherche">
     {{ form_start(sortieFiltreForm) }}
     {{ form_row(sortieFiltreForm.name) }}
     {{ form_row(sortieFiltreForm.dateMin) }}
@@ -13,6 +17,8 @@
     {{ form_row(sortieFiltreForm.isPasse) }}
     {{ form_row(sortieFiltreForm.site) }}
     {{ form_end(sortieFiltreForm) }}
+    </div>
+    <script src="{{ asset('JS/formulairederecherche.js') }}"></script>
 
     <h2>Évènements créés par nos utilisateurs</h2>
     <div class="listesorties">
