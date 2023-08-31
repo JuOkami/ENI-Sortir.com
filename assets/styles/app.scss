@@ -281,7 +281,7 @@ button{
     width: 10vw;
     background-color: darken($couleur1, 10%);
     background-image : linear-gradient(90deg, darken($couleur1, 10%) 45%, $couleur2 50%, $couleur2 55%);
-    background-size: 210%;
+    background-size: 220%;
     transition: background-color 0.3s, background-position 0.3s;
     &:hover{
         background-color: darken($couleur1, 20%);
