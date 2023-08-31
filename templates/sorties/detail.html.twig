@@ -27,7 +27,10 @@
 
         <div class="colonneSortie">
             {{ include('sorties/carte.html.twig') }}
-            <p><i class="fa-solid fa-location-pin"></i> {{ sortie.lieu.nom }} à {{ sortie.lieu.ville.nom }}</p>
+
+            <p><i class="fa-solid fa-location-pin" ></i> {{ sortie.lieu.nom }}</p>
+            <p>{{ sortie.lieu.rue }}</p>
+            <p>{{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</p>
         </div>
 
         <div class="colonneSortie">
