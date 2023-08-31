@@ -198,6 +198,7 @@ nav {
 .presentationSortie{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-evenly;
 }
 
@@ -365,9 +366,33 @@ input[type=checkbox]{
     margin-left: 3vw;
 }
 
+.biographie{
+    width : 15vw;
+    margin-left : 10px;
+    margin-right : 5px;
+}
+
+.colonneFondateur{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 
 
 @media screen and (max-width: 780px){
+
+    .biographie{
+        width : auto;
+    }
+
+    .colonneFondateur{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+
     .listesorties{
         flex-direction: column;
     }
