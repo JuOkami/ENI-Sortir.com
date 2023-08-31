@@ -11,9 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CsvImportController extends AbstractController
 {
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/csv/import', name: 'app_csv_import')]
     public function importParticipants(EntityManagerInterface $entityManager, SiteRepository $siteRepository, Request $request): Response
     {
