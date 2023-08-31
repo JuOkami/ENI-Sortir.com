@@ -27,9 +27,13 @@
         <div class="alert alert-danger">Le pseudo n'existe pas ou le mot de passe est erroné.</div>
     {% endif %}
 
+    <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
+    <br>
+
     <button class="btn btn-lg btn-primary" type="submit">
         Connexion
     </button>
+
     <a href="{{ path('app_register') }}">Pas encore de compte ? Cliquez ici !</a>
 </form>
 {% endblock %}
