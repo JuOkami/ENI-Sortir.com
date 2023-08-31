@@ -16,6 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CsvImportController extends AbstractController
 {
+    //recuperation d'un fichier CSV
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/csv/import', name: 'app_csv_import')]
     public function importParticipants(
@@ -24,18 +25,21 @@ class CsvImportController extends AbstractController
         Request                $request,
     ): Response
     {
-
+        // Créez un formulaire pour le téléchargement du fichier CSV
         $form = $this->createForm(CsvImportType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Récupère le fichier téléchargé depuis le formulaire
             $fichier = $form->get("fichier")->getData();
+
+            // Charge le fichier CSV à l'aide de la bibliothèque PhpSpreadsheet
             $tableur = IOFactory::load($fichier);
             $feuille = $tableur->getActiveSheet();
-            //$lignes = $classeur->toArray();
 
             foreach ($feuille->getRowIterator() as $ligne) {
                 $donneesLigne = [];
 
+                // Récupère les valeurs de chaque cellule dans la ligne
                 $iterateurCellule = $ligne->getCellIterator();
                 foreach ($iterateurCellule as $cellule) {
                     $donneesLigne[] = $cellule->getValue();

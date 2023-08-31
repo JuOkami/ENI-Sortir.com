@@ -13,6 +13,7 @@ class ResetPasswordRequestFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Ajoute un champ avec un label personnalisé
             ->add('mail', EmailType::class, [
                 'attr' => ['autocomplete' => 'email'],
                 'constraints' => [
@@ -25,6 +26,7 @@ class ResetPasswordRequestFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Configure les options par défaut du formulaire
         $resolver->setDefaults([]);
     }
 }

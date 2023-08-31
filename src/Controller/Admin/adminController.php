@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+// Contrôleur pour le tableau de bord EasyAdmin
 class adminController extends AbstractDashboardController
 {
     #[IsGranted('ROLE_ADMIN')]
@@ -41,14 +42,19 @@ class adminController extends AbstractDashboardController
         return $this->render('admin/my-dashboard.html.twig');
     }
 
+
+    // Méthode pour configurer le tableau de bord EasyAdmin
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('ENI Sortir Com');
+            ->setTitle('ENI Sortir Com'); // Titre du tableau de bord
     }
 
+
+    // Méthode pour configurer les éléments du menu EasyAdmin
     public function configureMenuItems(): iterable
     {
+        // Ajout d'éléments de menu
         yield MenuItem::linkToDashboard('Dashboard', 'fa-solid fa-lock');
         yield MenuItem::linkToRoute('Retour du site', 'fa-solid fa-arrow-rotate-left', 'app_sorties_list');
         yield MenuItem::linkToCrud('Participant', 'fa-solid fa-person', Participant::class);

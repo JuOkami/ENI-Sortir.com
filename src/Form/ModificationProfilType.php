@@ -15,6 +15,7 @@ class ModificationProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Ajoute un champ avec un label personnalisé
             ->add('pseudo')
             ->add('nom')
             ->add('prenom')
@@ -32,6 +33,7 @@ class ModificationProfilType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            // Configuration des options par défaut du formulaire
             'data_class' => Participant::class,
         ]);
     }

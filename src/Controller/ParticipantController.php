@@ -22,10 +22,12 @@ class ParticipantController extends AbstractController
     #[Route('/affichageParticipant/{participant}', name: '_affichageParticipant')]
     public function affichageParticipant(Participant $participant): Response
     {
+        // Affiche la page de profil d'un participant spécifique
         return $this->render('participant/participant.html.twig', compact('participant'));
     }
 
     #[IsGranted('ROLE_USER')]
+    // Affiche la page de profil de l'utilisateur connecté
     #[Route('/affichageProfil', name: '_affichageProfil')]
     public function affichageUser(): Response
     {
@@ -42,6 +44,7 @@ class ParticipantController extends AbstractController
     public function modifierProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $participant = $this->getUser();
+        // Crée un formulaire de modification de profil en utilisant ModificationProfilType
         $form = $this->createForm(ModificationProfilType::class, $participant);
         $form->handleRequest($request);
 
@@ -50,7 +53,6 @@ class ParticipantController extends AbstractController
 
             $entityManager->persist($participant);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             return $this->redirectToRoute('app_participant_affichageProfil');
         }

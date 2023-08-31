@@ -23,15 +23,18 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Ajoute un champ avec un label personnalisé
             ->add('pseudo')
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
             ->add('site', EntityType::class, ['class' => Site::class, 'choice_label' => 'nom'])
+            // Champ pour l'upload d'une image (liaison avec VichUploaderBundle)
             ->add('imageFile', VichFileType::class, [
                 'required' => false
             ])
+            // Checkbox pour accepter les termes et conditions
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -40,6 +43,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            // Champs pour le mot de passe (saisie et confirmation)
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de Passe :',
@@ -63,6 +67,7 @@ class RegistrationFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Configuration des options par défaut du formulaire
         $resolver->setDefaults([
             'data_class' => Participant::class,
         ]);

@@ -29,6 +29,7 @@
 
             </div>
             <div class="nav-zone-liens">
+                <!-- Liens de connexion et de déconnexion en fonction de l'utilisateur -->
                 {% if not app.user %}
                     <a href="{{ path('app_login') }}">Se connecter</a>
                 {% endif %}

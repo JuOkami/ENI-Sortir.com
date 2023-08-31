@@ -14,6 +14,7 @@ class VilleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Ajoute un champ avec un label personnalisé
             ->add('nom', TextType::class, ['label' => 'Nom : '])
             ->add('codePostal', TextType::class, ['label' => 'Code Postal : '])
             ->add('Enregister', SubmitType::class);
@@ -21,6 +22,7 @@ class VilleType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Configure les options par défaut du formulaire
         $resolver->setDefaults([
             'data_class' => Ville::class,
         ]);

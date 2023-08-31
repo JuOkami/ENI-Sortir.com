@@ -34,7 +34,7 @@ class SortieRepository extends ServiceEntityRepository
         $this->entityManager = $entityManager;
     }
 
-
+    // Méthode pour rechercher des sorties en fonction des critères
     public function findByRecherche(SortieFiltre $recherche, Participant $utilisateur)
     {
         $query = $this->createQueryBuilder('sortie')
@@ -96,10 +96,12 @@ class SortieRepository extends ServiceEntityRepository
         return $paginator;
     }
 
+    // Méthode pour mettre à jour les états des sorties en fonction de la date et de la durée
     public function updateSortieStates(): void
     {
         $sorties = $this->findAll();
 
+        // Obtention des états
         $openState = $this->getStateByLibelle('Ouverte');
         $closedState = $this->getStateByLibelle('Clôturée');
         $inProgressState = $this->getStateByLibelle('En cours');
@@ -109,6 +111,7 @@ class SortieRepository extends ServiceEntityRepository
 
 
         foreach ($sorties as $sortie) {
+            // Mise à jour des états en fonction de la date et de la durée
             $endDateTime = clone $sortie->getDateHeureDebut();
             $endDateTime->add(new DateInterval('PT' . $sortie->getDuree() . 'H'));
 
@@ -134,73 +137,7 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-//    public function findArchivableSorties()
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->where('s.dateHeureDebut < :date')
-//            ->setParameter('date', new DateTime('-1 month'))
-//            ->getQuery()
-//            ->getResult();
-//    }
-//
-//    public function findClosedSorties()
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->where(':date < s.dateLimiteInscription')
-//            ->setParameter('date', new DateTime())
-//            ->getQuery()
-//            ->getResult();
-//    }
-//    public function findinProgressSorties()
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->where('s.dateHeureDebut < :date')
-//            ->setParameter('date', new DateTime)
-//            ->getQuery()
-//            ->getResult();
-//    }
-//    public function findPastSorties()
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->where(':date > (s.dateHeureDebut + s.duree)')
-//            ->setParameter('date', new DateTime)
-//            ->getQuery()
-//            ->getResult();
-//    }
-
-    //    public function findNonArchivedSorties($archivedState)
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.etat != :archivedState')
-//            ->setParameter('archivedState', $archivedState)
-//            ->getQuery()
-//            ->getResult();
-//    }
-
-//    /**
-//     * @return Sortie[] Returns an array of Sortie objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Sortie
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    // Méthode privée pour obtenir l'état par libellé
     private function getStateByLibelle($libelle)
 
     {

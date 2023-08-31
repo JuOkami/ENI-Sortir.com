@@ -13,14 +13,15 @@ class CsvImportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Ajoute un champ avec un label personnalisé
             ->add('fichier', FileType::class)
             ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Configure les options par défaut du formulaire
         $resolver->setDefaults([
-            // Configure your form options here
         ]);
     }
 }
