@@ -16,24 +16,28 @@ class SecurityController extends AbstractController
         ParticipantRepository $participantRepository,
     ): Response
     {
-        // get the login error if there is one
+        // Récupération de l'éventuelle erreur de connexion
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+        // Dernier nom d'utilisateur saisi par l'utilisateur
         $lastUsername = $authenticationUtils->getLastUsername();
 
+        // Vérification si l'utilisateur est déjà connecté
         if ($this->getUser()) {
             $user = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
             if (!$user->isActif()) {
+                // Redirection vers la déconnexion si l'utilisateur n'est pas actif
+
                 return $this->redirectToRoute('app_logout');
             }
         } else {
             $user = null;
         }
 
-
+        // Affichage du formulaire de connexion avec les éventuelles erreurs
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+    // Route pour la déconnexion (gérée par le firewall)
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {

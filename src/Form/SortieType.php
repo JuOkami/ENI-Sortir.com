@@ -23,6 +23,7 @@ class SortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Ajoute un champ avec un label personnalisé
             ->add('nom', TextType::class, ['label' => "Titre de l'evenement : ", 'attr' => ['class' => 'champForm']])
             ->add('dateHeureDebut', DateTimeType::class, ['widget' => 'single_text', 'label' => 'Début de la sortie'])
             ->add('duree', IntegerType::class, ['label' => 'Durée en H : '])
@@ -41,6 +42,7 @@ class SortieType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Configure les options par défaut du formulaire
         $resolver->setDefaults([
             'data_class' => Sortie::class,
         ]);

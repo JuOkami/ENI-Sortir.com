@@ -15,6 +15,8 @@ class ChangePasswordFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Ajoute un champ avec un label personnalisé
+            // Champ pour le nouveau mot de passe, répété deux fois
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => [
@@ -23,6 +25,7 @@ class ChangePasswordFormType extends AbstractType
                     ],
                 ],
                 'first_options' => [
+                    // Contraintes de validation pour le premier champ
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Veuillez entrer votre adresse e-mail.',
@@ -30,7 +33,7 @@ class ChangePasswordFormType extends AbstractType
                         new Length([
                             'min' => 6,
                             'minMessage' => 'Votre mot de passe doit comporter au moins {{ limit }} caractères.',
-                            // max length allowed by Symfony for security reasons
+                            // Longueur maximale autorisée par Symfony pour des raisons de sécurité
                             'max' => 4096,
                         ]),
                     ],
@@ -48,6 +51,7 @@ class ChangePasswordFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Configure les options par défaut du formulaire
         $resolver->setDefaults([]);
     }
 }

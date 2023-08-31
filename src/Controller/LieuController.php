@@ -26,7 +26,9 @@ class LieuController extends AbstractController
         VilleRepository        $villeRepository
     )
     {
+        // Récupère les données de la requête
         $req = $request->toArray();
+        // Crée un nouvel objet Lieu avec les données reçues
         $lieu = (new Lieu())
             ->setNom($req['nom'])
             ->setRue($req['rue'])
@@ -36,6 +38,7 @@ class LieuController extends AbstractController
         $entityManager->persist($lieu);
         $entityManager->flush();
 
+        // Renvoie une réponse JSON avec la liste mise à jour des lieux
         return $this->json(
             $villeRepository->findBy([], ['nom' => 'ASC']),
             201,
@@ -51,6 +54,7 @@ class LieuController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
+        // Crée un formulaire de création de lieu en utilisant LieuType
         $lieu = new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $lieu);
         $lieuForm->handleRequest($request);

@@ -43,8 +43,10 @@ class SortiesController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
+        // Vérification si un utilisateur est connecté
         if ($this->getUser()) {
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+            // Vérification de l'état actif de l'utilisateur
             if (!$utilisateur->isActif()) {
                 return $this->redirectToRoute('app_logout');
             }
@@ -53,6 +55,7 @@ class SortiesController extends AbstractController
         }
 
         $sortieFiltre = new SortieFiltre();
+        // Création du formulaire de filtre en utilisant SortieFiltreType
         $sortieFiltreForm = $this->createForm(SortieFiltreType::class, $sortieFiltre);
         $sortieFiltreForm->handleRequest($request);
 
@@ -82,7 +85,9 @@ class SortiesController extends AbstractController
     {
         if ($this->getUser()) {
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+            // Vérification si l'utilisateur est inscrit à la sortie
             $isinscrit = $inscriptionSortieService->isInscrit($sortie, $utilisateur);
+            // Vérification de la possibilité d'inscription et désistement pour l'utilisateur
             $boutonInscription = $inscriptionSortieService->validationInscription($sortie, $utilisateur);
             $boutonDesistement = $inscriptionSortieService->validationDesistement($sortie, $utilisateur);
         } else {
@@ -92,6 +97,7 @@ class SortiesController extends AbstractController
         }
 
         $inscrits = $sortie->getInscriptions();
+        // Calcul de l'heure de fin de la sortie en ajoutant la durée à la date de début
         $endDateTime = clone $sortie->getDateHeureDebut();
         $endDateTime->add(new DateInterval('PT' . $sortie->getDuree() . 'H'));
 
@@ -109,6 +115,7 @@ class SortiesController extends AbstractController
         }
 
         $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+        // Ajout de l'utilisateur à la liste des inscrits à la sortie
         $sortie->addInscription($utilisateur);
         $entityManager->persist($sortie);
         $entityManager->flush();
@@ -121,6 +128,7 @@ class SortiesController extends AbstractController
     public function desinscriptionSortie(Sortie $sortie, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
         $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
+        // Retrait de l'utilisateur de la liste des inscrits à la sortie
         $sortie->removeInscription($utilisateur);
         $entityManager->persist($sortie);
         $entityManager->flush();
@@ -139,6 +147,7 @@ class SortiesController extends AbstractController
         SerializerInterface    $serializer
     ): Response
     {
+        // Contexte pour la sérialisation (conversion en JSON)
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups('listeLieux')
             ->toArray();
@@ -147,6 +156,7 @@ class SortiesController extends AbstractController
             'json',
             $context);
 
+        // Création de nouvelles instances des formulaires Ville, Lieu et Sortie
         $ville = new Ville();
         $villeForm = $this->createForm(VilleType::class, $ville);
 //        $villeForm->handleRequest($request);
@@ -185,7 +195,9 @@ class SortiesController extends AbstractController
     public function annuleeSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
 
     {
+        // Vérification du jeton CSRF pour éviter les attaques de falsification de requête
         if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->request->get('_token'))) {
+            // Récupération de l'état "Annulée"
             $etatAnnulee = $entityManager->getRepository(Etat::class)->find(6);
             $sortie->setEtat($etatAnnulee);
 

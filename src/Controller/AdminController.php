@@ -22,11 +22,13 @@ class AdminController extends AbstractController
     public function nouvelUtilisateur(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher,): Response
     {
         $user = new Participant();
+
+        // Crée un formulaire d'inscription en utilisant le type de formulaire RegistrationFormType
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            // Hash le mot de passe fourni dans le formulaire
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,

@@ -18,6 +18,7 @@ class SortieCrudController extends AbstractCrudController
         return Sortie::class;
     }
 
+    // Méthode pour configurer les champs à afficher dans EasyAdmin
     public function configureFields(string $pageName): iterable
     {
         return [

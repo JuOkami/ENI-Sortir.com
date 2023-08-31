@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+// Contrôleur pour les opérations liées aux villes
 class VilleController extends AbstractController
 {
 
     #[IsGranted('ROLE_USER')]
+    // Annotation pour définir la route et le nom, et limiter les méthodes HTTP à POST
     #[Route('/enregistrerVille', name: 'enregistrerVille', methods: ['POST'])]
     public function enregistrerVille(
         Request                $request,
@@ -23,7 +25,9 @@ class VilleController extends AbstractController
         VilleRepository        $villeRepository
     )
     {
+        // Récupération des données de la requête
         $req = $request->toArray();
+        // Création d'une nouvelle instance de Ville avec les données reçues
         $ville = (new Ville())
             ->setNom($req['nom'])
             ->setCodePostal($req['codePostal']);
@@ -31,6 +35,7 @@ class VilleController extends AbstractController
         $entityManager->persist($ville);
         $entityManager->flush();
 
+        // Renvoi des données des villes (triées par nom) sous forme de réponse JSON avec le groupe "listeLieux"
         return $this->json(
             $villeRepository->findBy([], ['nom' => 'ASC']),
             201,

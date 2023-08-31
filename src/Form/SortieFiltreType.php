@@ -22,14 +22,17 @@ class SortieFiltreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Ajoute un champ avec un label personnalisé
             ->add('name', TextType::class, ['label' => 'Le nom de la sortie contient', "required" => false])
             ->add('dateMin', DateTimeType::class, ['widget' => 'single_text', 'label' => 'Du', "required" => false])
             ->add('dateMax', DateTimeType::class, ['widget' => 'single_text', 'label' => 'Au', "required" => false])
+            // Ajoute un champ pour filtrer les événements dont l'utilisateur est l'organisateur
             ->add('isOrganisateur', CheckboxType::class,
                 ['label' => "Evenements dont je suis l'organisateur",
                     "required" => false,
                     "attr" => ["class" => "inputcase"]
                 ])
+            // Ajoute un champ pour filtrer les événements auxquels l'utilisateur est inscrit
             ->add('isInscrit', ChoiceType::class,
                 [
                     'label' => "Evenements auxquels je suis inscrit",
@@ -41,6 +44,7 @@ class SortieFiltreType extends AbstractType
                     'expanded' => true,
                     "attr" => ["class" => "inputcase"]
                 ])
+            // Ajoute un champ pour filtrer les événements passés
             ->add('isPasse', CheckboxType::class, [
                 'label' => "Evenements passés",
                 "required" => false,
@@ -50,7 +54,7 @@ class SortieFiltreType extends AbstractType
     }
 
     public function configureOptions(OptionsResolver $resolver): void
-    {
+    {// Configure les options par défaut du formulaire
         $resolver->setDefaults([
             'data_class' => SortieFiltre::class,
         ]);

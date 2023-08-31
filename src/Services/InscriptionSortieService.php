@@ -9,11 +9,13 @@ use DateTime;
 class InscriptionSortieService
 {
 
+    // Vérifie si l'utilisateur est déjà inscrit à la sortie
     public function isInscrit(Sortie $sortie, Participant $utilisateur)
     {
         return $sortie->getInscriptions()->contains($utilisateur);
     }
 
+    // Valide si l'inscription à une sortie est possible pour un utilisateur
     public function validationInscription(Sortie $sortie, Participant $utilisateur)
     {
         $personnesInscrites = $sortie->getInscriptions();
@@ -36,6 +38,7 @@ class InscriptionSortieService
 
     }
 
+    // Valide si le désistement à une sortie est possible pour un utilisateur
     public function validationDesistement(Sortie $sortie, Participant $utilisateur)
     {
         $personnesInscrites = $sortie->getInscriptions();

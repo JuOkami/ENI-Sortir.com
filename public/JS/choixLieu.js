@@ -2,19 +2,23 @@ let liste = 0;
 
 window.onload = init;
 
+// Fonction d'initialisation
 function init() {
-    blankLieux();
+    blankLieux(); // Initialiser la liste des lieux
     var passageDeValeurs = document.getElementById('passagedevaleurs');
-    creationListe(JSON.parse(passageDeValeurs.dataset.liste));
+    creationListe(JSON.parse(passageDeValeurs.dataset.liste)); // Créer la liste à partir des données importées
     premierSelect();
 
+    // Écouteur d'événement pour le clic sur le bouton de sortie de ville
     document.getElementById("sortie_ville").addEventListener("click", miseajourlistelieux);
 }
 
+// Fonction pour créer la liste à partir des données importées
 function creationListe(listeimportee) {
     liste = listeimportee;
 }
 
+// Fonction pour remplir le premier sélecteur de ville
 function premierSelect() {
 
     document.getElementById("sortie_ville").innerHTML = "";
@@ -31,6 +35,7 @@ function premierSelect() {
     }
 }
 
+// Fonction pour mettre à jour la liste des lieux en fonction de la ville sélectionnée
 function miseajourlistelieux() {
 
     blankLieux();
@@ -55,6 +60,7 @@ function miseajourlistelieux() {
     }
 }
 
+// Fonction pour réinitialiser la liste des lieux
 function blankLieux() {
     document.getElementById("sortie_lieu").innerHTML = "";
     let blankoption = document.createElement("option");
