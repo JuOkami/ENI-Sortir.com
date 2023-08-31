@@ -3,11 +3,14 @@
 namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Lieu;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
+use App\Entity\Ville;
 use App\Form\LieuType;
 use App\Form\SortieFiltreType;
 use App\Form\SortieType;
+use App\Form\VilleType;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
@@ -31,7 +34,7 @@ use function Symfony\Component\Clock\now;
 class SortiesController extends AbstractController
 {
 
-    #[Route('/list', name: '_list')]
+    #[Route('/', name: '_list')]
     public function listSortie(
         SortieRepository $sortieRepository,
         ParticipantRepository $participantRepository,
@@ -45,7 +48,7 @@ class SortiesController extends AbstractController
                 return $this->redirectToRoute('app_logout');
             }
         } else {
-            $utilisateur = null;
+            $utilisateur = new Participant();
         }
 
         $sortieFiltre = new SortieFiltre();
@@ -63,6 +66,12 @@ class SortiesController extends AbstractController
             "sorties" => $sorties,
             "sortieFiltreForm" => $sortieFiltreForm->createView()
         ]);
+    }
+
+    #[Route('/aboutus', name: '_aboutus')]
+    public function aboutus(): Response
+    {
+       return $this->render('sorties/aboutus.html.twig');
     }
 
     #[IsGranted('ROLE_USER')]
@@ -123,7 +132,6 @@ class SortiesController extends AbstractController
         EntityManagerInterface $entityManager,
         Request $request,
         VilleRepository $villeRepository,
-        LieuRepository $lieuRepository,
         ParticipantRepository $participantRepository,
         EtatRepository $etatRepository,
         SerializerInterface $serializer
@@ -137,11 +145,13 @@ class SortiesController extends AbstractController
             'json',
             $context );
 
-
+        $ville = new Ville();
+        $villeForm = $this->createForm(VilleType::class,$ville);
+//        $villeForm->handleRequest($request);
 
         $lieu = new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $lieu);
-        $lieuForm->handleRequest($request);
+//        $lieuForm->handleRequest($request);
 
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class,$sortie);
@@ -162,13 +172,14 @@ class SortiesController extends AbstractController
                 "liste" => $listevilleslieux,
                 "sortieForm" => $sortieForm->createView(),
                 "lieuForm" => $lieuForm->createView(),
+                "villeForm" => $villeForm->createView()
             ]
         );
     }
 
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/{id}', name: '_annuleeSortie', methods: ['POST'])]
+    #[Route('/annulation/{id}', name: '_annuleeSortie', methods: ['POST'])]
     public function annuleeSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
 
     {

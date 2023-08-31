@@ -3,6 +3,7 @@
     <head>
         <script src="https://kit.fontawesome.com/71966fa12c.js" crossorigin="anonymous"></script>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Ya Quoi A Faire ?{% endblock %}</title>
 
         <link rel="icon" href="{{ asset('icones/android-chrome-512x512.png')}}">
@@ -33,7 +34,9 @@
                     {% endif %}
                     {% if app.user %}
                         <a href="{{ path('app_participant_affichageProfil') }}">Bonjour {{ app.user.pseudo }}</a>
-
+                        {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                        <a href="{{ path('admin') }}">Administrateur</a>
+                        {% endif %}
                         <a href="{{ path('app_logout') }}">Se déconnecter</a>
                     {% endif %}
                 </div>
@@ -43,6 +46,7 @@
                 {% if app.user %}
                 <a href="{{ path('app_sorties_creationSortie') }}">Proposer une sortie</a>
                 {% endif %}
+                <a href="{{ path('app_sorties_aboutus') }}">Qui sommes nous ?</a>
             </div>
         </nav>
     </header>

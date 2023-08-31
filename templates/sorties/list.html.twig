@@ -2,17 +2,31 @@
 
 {% block body %}
 
+    <div class="zonederecherche" id="zonederecherche">
+        <p><i class="fa-solid fa-chevron-right"></i> Rechercher une sortie</p>
+    </div>
+    <div class="formulairederecherche" id="formulairederecherche">
     {{ form_start(sortieFiltreForm) }}
     {{ form_row(sortieFiltreForm.name) }}
     {{ form_row(sortieFiltreForm.dateMin) }}
     {{ form_row(sortieFiltreForm.dateMax) }}
     {% if app.user %}
+        <div class="champspeciaux">
     {{ form_row(sortieFiltreForm.isOrganisateur) }}
+        </div>
+        <div class="champspeciaux">
     {{ form_row(sortieFiltreForm.isInscrit) }}
+        </div>
     {% endif %}
+        {{ form_row(sortieFiltreForm.site) }}
+        <div class="champspeciaux">
     {{ form_row(sortieFiltreForm.isPasse) }}
-    {{ form_row(sortieFiltreForm.site) }}
-    {{ form_end(sortieFiltreForm) }}
+        </div>
+        {{ form_row((sortieFiltreForm.Rechercher)) }}
+
+    {{ form_end(sortieFiltreForm, {render_rest : false}) }}
+    </div>
+    <script src="{{ asset('JS/formulairederecherche.js') }}"></script>
 
     <h2>Évènements créés par nos utilisateurs</h2>
     <div class="listesorties">

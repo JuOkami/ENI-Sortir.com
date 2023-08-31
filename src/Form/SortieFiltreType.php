@@ -25,17 +25,26 @@ class SortieFiltreType extends AbstractType
             ->add('name', TextType::class, ['label'=>'Le nom de la sortie contient', "required" => false])
             ->add('dateMin', DateTimeType::class, ['widget' => 'single_text', 'label' => 'Du', "required" => false])
             ->add('dateMax', DateTimeType::class, ['widget' => 'single_text', 'label' => 'Au', "required" => false])
-            ->add('isOrganisateur', CheckboxType::class, ['label'=>"Evenements dont je suis l'organisateur", "required" => false])
+            ->add('isOrganisateur', CheckboxType::class,
+                ['label'=>"Evenements dont je suis l'organisateur",
+                    "required" => false,
+                    "attr"=>["class" => "inputcase"]
+                ])
             ->add('isInscrit', ChoiceType::class,
                 [
+                    'label'=>"Evenements auxquels je suis inscrit",
                     'choices' => [
-                        'Je suis inscrit' => true,
-                        'Je ne suis pas inscrit' => false,
+                        'Inscrit' => true,
+                        'Non inscrit' => false,
                         'Les deux' => null,
                     ],
                     'expanded' => true,
+                    "attr"=>["class" => "inputcase"]
                 ])
-            ->add('isPasse', CheckboxType::class, ['label'=>"Evenements passés", "required" => false])
+            ->add('isPasse', CheckboxType::class, [
+                'label'=>"Evenements passés",
+                "required" => false,
+                "attr"=>["class" => "inputcase"]])
             ->add('site', EntityType::class, ['class'=> Site::class, 'choice_label' => 'nom', "required" => false])
             ->add('Rechercher', SubmitType::class)
         ;

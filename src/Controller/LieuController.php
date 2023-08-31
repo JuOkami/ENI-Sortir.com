@@ -18,13 +18,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 class LieuController extends AbstractController
 {
 
-    #[IsGranted('ROLE_USER')]
+//    #[IsGranted('ROLE_USER')]
     #[Route('/enregistrerLieu', name : 'enregistrerLieu', methods : ['POST'])]
     public function enregistrerLieu(
         Request $request,
         EntityManagerInterface $entityManager,
-        VilleRepository $villeRepository,
-        SerializerInterface $serializer
+        VilleRepository $villeRepository
     ){
         $req = $request->toArray();
         $lieu = (new Lieu())

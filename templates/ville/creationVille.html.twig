@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h2>Créer une nouvelle ville</h2>
+
+    <div class="zoneFormulairesortie">
+        {{ form_start(villeForm) }}
+        {{ form_row(villeForm.nom) }}
+        {{ form_row((villeForm.codePostal)) }}
+        {{ form_end(villeForm) }}
+    </div>
+
+{% endblock %}
+
+
+

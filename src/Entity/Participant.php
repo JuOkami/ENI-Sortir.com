@@ -414,4 +414,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->site = $data['site'];
         $this->sortiesOrganisees = $data['sortiesOrganisees'];
         $this->inscriptions = $data['inscriptions'];
-    }}
+    }
+
+    public function __toString(): string
+    {
+       return $this->getPseudo();
+    }
+
+
+}
