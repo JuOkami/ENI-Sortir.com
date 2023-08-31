@@ -19,27 +19,27 @@ class AdminController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/nouvelUtilisateur', name: 'nouvel_utilisateur')]
-public function nouvelUtilisateur(EntityManagerInterface $entityManager,Request $request, UserPasswordHasherInterface $userPasswordHasher,): Response
-{
-    $user = new Participant();
-    $form = $this->createForm(RegistrationFormType::class, $user);
-    $form->handleRequest($request);
+    public function nouvelUtilisateur(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher,): Response
+    {
+        $user = new Participant();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        // encode the plain password
-        $user->setPassword(
-            $userPasswordHasher->hashPassword(
-                $user,
-                $form->get('plainPassword')->getData()
-            )
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
 
-        $entityManager->persist($user);
-        $entityManager->flush();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-        return $this->redirectToRoute('app_participant_affichageProfil');
+            return $this->redirectToRoute('app_participant_affichageProfil');
+        }
+        return $this->render('admin/nouvelUtilisateur.html.twig', [
+            'registrationForm' => $form->createView()]);
     }
-    return $this->render('admin/nouvelUtilisateur.html.twig', [
-        'registrationForm' => $form->createView()]);
-}
 }

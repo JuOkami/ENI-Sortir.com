@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="profil">
-<h2> {{ participant.pseudo }}</h2>
+        <h2> {{ participant.pseudo }}</h2>
 
         {% if participant.imageName %}
             <img class="illussortie" src="{{ asset('images/participants/'~participant.imageName) }}" alt="">

@@ -15,13 +15,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class VilleController extends AbstractController
 {
 
-//    #[IsGranted('ROLE_USER')]
-    #[Route('/enregistrerVille', name : 'enregistrerVille', methods : ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    #[Route('/enregistrerVille', name: 'enregistrerVille', methods: ['POST'])]
     public function enregistrerVille(
-        Request $request,
+        Request                $request,
         EntityManagerInterface $entityManager,
-        VilleRepository $villeRepository
-    ){
+        VilleRepository        $villeRepository
+    )
+    {
         $req = $request->toArray();
         $ville = (new Ville())
             ->setNom($req['nom'])
@@ -31,17 +32,17 @@ class VilleController extends AbstractController
         $entityManager->flush();
 
         return $this->json(
-            $villeRepository->findBy([], ['nom'=> 'ASC']),
+            $villeRepository->findBy([], ['nom' => 'ASC']),
             201,
             [],
             ['groups' => 'listeLieux']
         );
     }
-    
+
     #[IsGranted('ROLE_USER')]
     #[Route('/ville', name: 'app_ville')]
     public function creationVille(
-        Request $request,
+        Request                $request,
         EntityManagerInterface $entityManager
     ): Response
     {
@@ -49,7 +50,7 @@ class VilleController extends AbstractController
         $villeForm = $this->createForm(VilleType::class, $ville);
         $villeForm->handleRequest($request);
 
-        if ($villeForm->isSubmitted()&&$villeForm->isValid()){
+        if ($villeForm->isSubmitted() && $villeForm->isValid()) {
             $entityManager->persist($ville);
             $entityManager->flush();
             return $this->redirectToRoute('app_sorties_creationSortie');
@@ -58,7 +59,7 @@ class VilleController extends AbstractController
 
         return $this->render('ville/creationVille.html.twig', [
             'controller_name' => 'VilleController',
-            'villeForm'=> $villeForm
+            'villeForm' => $villeForm
         ]);
     }
 }

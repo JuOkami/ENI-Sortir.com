@@ -13,20 +13,21 @@
                 <img class="illussortie" src="{{ sortie.urlphoto }}" alt="">
             {% endif %}
 
-            <p><i class="fa-solid fa-calendar"></i> {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris")}}
-                de {{ sortie.dateheuredebut | date("H:i")}}
-                à {{ endDateTime | date("H:i")}}
-        {#        TODO : calculer la date de fin d'une sortie #}
+            <p><i class="fa-solid fa-calendar"></i> {{ sortie.dateheuredebut | date("m/d/Y", "Europe/Paris") }}
+                de {{ sortie.dateheuredebut | date("H:i") }}
+                à {{ endDateTime | date("H:i") }}
+                {#        TODO : calculer la date de fin d'une sortie #}
             </p>
             <a href="{{ path('app_participant_affichageParticipant',{'participant':sortie.organisateur.id}) }}">
-                <p class="organisateursortie"><i class="fa-solid fa-circle-user"></i> {{ sortie.organisateur.pseudo }}</p>
+                <p class="organisateursortie"><i class="fa-solid fa-circle-user"></i> {{ sortie.organisateur.pseudo }}
+                </p>
             </a>
             <p><i class="fa-solid fa-circle-question"></i> {{ sortie.infossortie }}</p>
         </div>
 
         <div class="colonneSortie">
             {{ include('sorties/carte.html.twig') }}
-            <p><i class="fa-solid fa-location-pin" ></i> {{ sortie.lieu.nom }} à {{ sortie.lieu.ville.nom }}</p>
+            <p><i class="fa-solid fa-location-pin"></i> {{ sortie.lieu.nom }} à {{ sortie.lieu.ville.nom }}</p>
         </div>
 
         <div class="colonneSortie">

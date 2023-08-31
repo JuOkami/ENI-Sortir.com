@@ -43,9 +43,9 @@ class SecurityAuthenticator extends AbstractLoginFormAuthenticator
             // C'est un nom d'utilisateur
             $participant = $this->participantRepository->findOneBy(['pseudo' => $mail]);
         }
-        if ($participant==null){
+        if ($participant == null) {
             return new Passport(
-            new UserBadge($mail),
+                new UserBadge($mail),
                 /*new UserBadge($participant->getMail()),*/
                 new PasswordCredentials($request->request->get('password', '')),
                 [
@@ -55,7 +55,7 @@ class SecurityAuthenticator extends AbstractLoginFormAuthenticator
             );
         }
         return new Passport(
-            //new UserBadge($mail),
+        //new UserBadge($mail),
             new UserBadge($participant->getMail()),
             new PasswordCredentials($request->request->get('password', '')),
             [

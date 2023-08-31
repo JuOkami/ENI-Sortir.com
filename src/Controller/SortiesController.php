@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Participant;
@@ -36,13 +37,13 @@ class SortiesController extends AbstractController
 
     #[Route('/', name: '_list')]
     public function listSortie(
-        SortieRepository $sortieRepository,
-        ParticipantRepository $participantRepository,
-        Request $request,
+        SortieRepository       $sortieRepository,
+        ParticipantRepository  $participantRepository,
+        Request                $request,
         EntityManagerInterface $entityManager
     ): Response
     {
-        if ($this->getUser()){
+        if ($this->getUser()) {
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
             if (!$utilisateur->isActif()) {
                 return $this->redirectToRoute('app_logout');
@@ -55,14 +56,15 @@ class SortiesController extends AbstractController
         $sortieFiltreForm = $this->createForm(SortieFiltreType::class, $sortieFiltre);
         $sortieFiltreForm->handleRequest($request);
 
-        if($sortieFiltreForm->isSubmitted()){
+        if ($sortieFiltreForm->isSubmitted()) {
             $sorties = $sortieRepository->findByRecherche($sortieFiltre, $utilisateur);
         } else {
+            // TODO Trie par date
             $sorties = $sortieRepository->findAll();
         }
 
 
-        return $this->render('sorties/list.html.twig',[
+        return $this->render('sorties/list.html.twig', [
             "sorties" => $sorties,
             "sortieFiltreForm" => $sortieFiltreForm->createView()
         ]);
@@ -71,14 +73,14 @@ class SortiesController extends AbstractController
     #[Route('/aboutus', name: '_aboutus')]
     public function aboutus(): Response
     {
-       return $this->render('sorties/aboutus.html.twig');
+        return $this->render('sorties/aboutus.html.twig');
     }
 
     #[IsGranted('ROLE_USER')]
     #[Route('/detail/{sortie}', name: '_detail')]
     public function detailSortie(Sortie $sortie, InscriptionSortieService $inscriptionSortieService, ParticipantRepository $participantRepository): Response
     {
-        if ($this->getUser()){
+        if ($this->getUser()) {
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
             $isinscrit = $inscriptionSortieService->isInscrit($sortie, $utilisateur);
             $boutonInscription = $inscriptionSortieService->validationInscription($sortie, $utilisateur);
@@ -91,7 +93,7 @@ class SortiesController extends AbstractController
 
         $inscrits = $sortie->getInscriptions();
         $endDateTime = clone $sortie->getDateHeureDebut();
-        $endDateTime->add(new DateInterval('PT'. $sortie->getDuree() .'H'));
+        $endDateTime->add(new DateInterval('PT' . $sortie->getDuree() . 'H'));
 
         return $this->render('sorties/detail.html.twig', compact('sortie', 'inscrits', 'endDateTime', 'boutonInscription', 'boutonDesistement', 'isinscrit'));
     }
@@ -128,25 +130,25 @@ class SortiesController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[Route('/creationSortie', name: '_creationSortie')]
-    public function creationSortie (
+    public function creationSortie(
         EntityManagerInterface $entityManager,
-        Request $request,
-        VilleRepository $villeRepository,
-        ParticipantRepository $participantRepository,
-        EtatRepository $etatRepository,
-        SerializerInterface $serializer
+        Request                $request,
+        VilleRepository        $villeRepository,
+        ParticipantRepository  $participantRepository,
+        EtatRepository         $etatRepository,
+        SerializerInterface    $serializer
     ): Response
     {
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups('listeLieux')
             ->toArray();
         $listevilleslieux = $serializer->serialize(
-            $villeRepository->findBy([], ["nom" => "ASC"] ),
+            $villeRepository->findBy([], ["nom" => "ASC"]),
             'json',
-            $context );
+            $context);
 
         $ville = new Ville();
-        $villeForm = $this->createForm(VilleType::class,$ville);
+        $villeForm = $this->createForm(VilleType::class, $ville);
 //        $villeForm->handleRequest($request);
 
         $lieu = new Lieu();
@@ -154,17 +156,17 @@ class SortiesController extends AbstractController
 //        $lieuForm->handleRequest($request);
 
         $sortie = new Sortie();
-        $sortieForm = $this->createForm(SortieType::class,$sortie);
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
-        if ($sortieForm->isSubmitted()&&$sortieForm->isValid()){
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $utilisateur = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
             $sortie->setOrganisateur($utilisateur);
             $sortie->setSiteOrganisateur($utilisateur->getSite());
             $sortie->setEtat($etatRepository->find(1));
             $entityManager->persist($sortie);
             $entityManager->flush();
-            $this->addFlash('success','Sortie ajoutée');
+            $this->addFlash('success', 'Sortie ajoutée');
             return $this->redirectToRoute('app_sorties_list');
         }
         return $this->render('sorties/creationSortie.html.twig',
@@ -183,7 +185,7 @@ class SortiesController extends AbstractController
     public function annuleeSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
 
     {
-        if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->request->get('_token'))) {
             $etatAnnulee = $entityManager->getRepository(Etat::class)->find(6);
             $sortie->setEtat($etatAnnulee);
 

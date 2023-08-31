@@ -312,25 +312,24 @@ class Sortie
     }
 
 
-
     public function __serialize(): array
     {
         return [
             'id' => $this->id,
             "imageName" => $this->imageName,
-            'imageSize'=>$this->imageSize,
-            'updatedAt'=>$this->updatedAt,
-            'nom'=>$this->nom,
-            'dateheuredebut'=>$this->dateHeureDebut,
-            'duree'=>$this->dateLimiteInscription,
-            'nbinscriptionsmax'=>$this->nbInscriptionsMax,
-            'infossortie'=> $this->infosSortie,
-            'urlphoto'=>$this->urlPhoto,
-            'organisateur'=>$this->organisateur,
-            'siteorganisateur'=>$this->siteOrganisateur,
-            'etat'=>$this->etat,
-            'lieu'=>$this->lieu
-            ];
+            'imageSize' => $this->imageSize,
+            'updatedAt' => $this->updatedAt,
+            'nom' => $this->nom,
+            'dateheuredebut' => $this->dateHeureDebut,
+            'duree' => $this->dateLimiteInscription,
+            'nbinscriptionsmax' => $this->nbInscriptionsMax,
+            'infossortie' => $this->infosSortie,
+            'urlphoto' => $this->urlPhoto,
+            'organisateur' => $this->organisateur,
+            'siteorganisateur' => $this->siteOrganisateur,
+            'etat' => $this->etat,
+            'lieu' => $this->lieu
+        ];
     }
 
     public function __unserialize(array $data): void
@@ -339,19 +338,18 @@ class Sortie
         $this->imageName = $data['imageName'];
         $this->imageSize = $data['imageSize'];
         $this->updatedAt = $data['updatedAt'];
-        $this->nom=$data['nom'];
-        $this->dateHeureDebut=$data['dateheuredebut'];
-       /* $this->duree=$data['duree'];*/
+        $this->nom = $data['nom'];
+        $this->dateHeureDebut = $data['dateheuredebut'];
+        /* $this->duree=$data['duree'];*/
         $this->nbInscriptionsMax = $data['nbinscriptionsmax'];
         $this->infosSortie = $data['infossortie'];
         $this->urlPhoto = $data['urlphoto'];
-        $this->organisateur=$data['organisateur'];
-        $this->siteOrganisateur=$data['siteorganisateur'];
-        $this->etat=$data['etat'];
-        $this->lieu=$data['lieu'];
+        $this->organisateur = $data['organisateur'];
+        $this->siteOrganisateur = $data['siteorganisateur'];
+        $this->etat = $data['etat'];
+        $this->lieu = $data['lieu'];
 
     }
-
 
 
 }

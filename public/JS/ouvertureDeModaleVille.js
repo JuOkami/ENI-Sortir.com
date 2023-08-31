@@ -1,29 +1,26 @@
-
-
-    var modalVille = document.getElementById("modaleVille");
+var modalVille = document.getElementById("modaleVille");
 
 // Get the button that opens the modal
-    var btnVille = document.getElementById("boutonVille");
+var btnVille = document.getElementById("boutonVille");
 
 // Get the <span> element that closes the modal
-    var spanVille = document.getElementById("closeVille");
+var spanVille = document.getElementById("closeVille");
 
-    document.getElementById("boutonpersoVille").addEventListener('click', envoiduformulaireVille);
-
+document.getElementById("boutonpersoVille").addEventListener('click', envoiduformulaireVille);
 
 
 // When the user clicks on the button, open the modal
-btnVille.onclick = function() {
+btnVille.onclick = function () {
     modalVille.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
-spanVille.onclick = function() {
+spanVille.onclick = function () {
     modalVille.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modalVille) {
         modalVille.style.display = "none";
     }
@@ -36,7 +33,7 @@ function envoiduformulaireVille() {
 
     let data = {
         nom: nom,
-        codePostal : codePostal
+        codePostal: codePostal
     }
 
     fetch('http://localhost:8000/enregistrerVille', {

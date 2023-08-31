@@ -12,7 +12,7 @@ class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
     public function login(
-        AuthenticationUtils $authenticationUtils,
+        AuthenticationUtils   $authenticationUtils,
         ParticipantRepository $participantRepository,
     ): Response
     {
@@ -21,7 +21,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        if ($this->getUser()){
+        if ($this->getUser()) {
             $user = $participantRepository->findOneBy(["pseudo" => $this->getUser()->getUserIdentifier()]);
             if (!$user->isActif()) {
                 return $this->redirectToRoute('app_logout');

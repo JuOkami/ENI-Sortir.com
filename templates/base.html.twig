@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="https://kit.fontawesome.com/71966fa12c.js" crossorigin="anonymous"></script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}Ya Quoi A Faire ?{% endblock %}</title>
+<head>
+    <script src="https://kit.fontawesome.com/71966fa12c.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Ya Quoi A Faire ?{% endblock %}</title>
 
-        <link rel="icon" href="{{ asset('icones/android-chrome-512x512.png')}}">
+    <link rel="icon" href="{{ asset('icones/android-chrome-512x512.png') }}">
 
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-    <header>
-        <nav>
-            <div class="navpremiereligne">
-                <div>
-{#                    <h1 class="grandtitre">YaQuoiAFaire</h1>#}
-                    <img class="logo" src="{{ asset('images/Logo YaQuoiAFaire_preview_rev_1.png') }}">
-                    <img class="logo2" src="{{ asset('images/Logo YaQuoiAFaire verso.png') }}">
-                    <!-- Ajoutez ceci où vous voulez afficher la date et l'heure actuelles -->
-{#                    <p>Heure actuelle : {{ "now"|date("Y-m-d H:i:s") }}</p>#}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<header>
+    <nav>
+        <div class="navpremiereligne">
+            <div>
+                {#                    <h1 class="grandtitre">YaQuoiAFaire</h1> #}
+                <img class="logo" src="{{ asset('images/Logo YaQuoiAFaire_preview_rev_1.png') }}">
+                <img class="logo2" src="{{ asset('images/Logo YaQuoiAFaire verso.png') }}">
+                <!-- Ajoutez ceci où vous voulez afficher la date et l'heure actuelles -->
+                {#                    <p>Heure actuelle : {{ "now"|date("Y-m-d H:i:s") }}</p> #}
 
-                </div>
-                <div class="nav-zone-liens">
-                    {% if not app.user %}
-                        <a href="{{ path('app_login') }}">Se connecter</a>
-                    {% endif %}
-                    {% if app.user %}
-                        <a href="{{ path('app_participant_affichageProfil') }}">Bonjour {{ app.user.pseudo }}</a>
-                        {% if app.user.roles[0] == "ROLE_ADMIN" %}
-                        <a href="{{ path('admin') }}">Administrateur</a>
-                        {% endif %}
-                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                    {% endif %}
-                </div>
             </div>
             <div class="nav-zone-liens">
-                <a href="{{ path('app_sorties_list') }}">Accueil</a>
-                {% if app.user %}
-                <a href="{{ path('app_sorties_creationSortie') }}">Proposer une sortie</a>
+                {% if not app.user %}
+                    <a href="{{ path('app_login') }}">Se connecter</a>
                 {% endif %}
-                <a href="{{ path('app_sorties_aboutus') }}">Qui sommes nous ?</a>
+                {% if app.user %}
+                    <a href="{{ path('app_participant_affichageProfil') }}">Bonjour {{ app.user.pseudo }}</a>
+                    {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                        <a href="{{ path('admin') }}">Administrateur</a>
+                    {% endif %}
+                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                {% endif %}
             </div>
-        </nav>
-    </header>
-    <main>
-        {% block body %}{% endblock %}
-    </main>
-    <footer>
-        <p>Sortir.com / Eni / Team Y'a Quoi ©</p>
-    </footer>
-    </body>
+        </div>
+        <div class="nav-zone-liens">
+            <a href="{{ path('app_sorties_list') }}">Accueil</a>
+            {% if app.user %}
+                <a href="{{ path('app_sorties_creationSortie') }}">Proposer une sortie</a>
+            {% endif %}
+            <a href="{{ path('app_sorties_aboutus') }}">Qui sommes nous ?</a>
+        </div>
+    </nav>
+</header>
+<main>
+    {% block body %}{% endblock %}
+</main>
+<footer>
+    <p>Sortir.com / Eni / Team Y'a Quoi ©</p>
+</footer>
+</body>
 </html>

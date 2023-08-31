@@ -18,7 +18,6 @@ class SortieCrudController extends AbstractCrudController
         return Sortie::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -35,7 +34,6 @@ class SortieCrudController extends AbstractCrudController
             yield AssociationField::new('etat'),
             yield AssociationField::new('lieu'),
         ];
-
 
     }
 
