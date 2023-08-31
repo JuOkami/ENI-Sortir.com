@@ -6,9 +6,11 @@ use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\SortieFiltre;
+use App\Entity\Ville;
 use App\Form\LieuType;
 use App\Form\SortieFiltreType;
 use App\Form\SortieType;
+use App\Form\VilleType;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
@@ -130,7 +132,6 @@ class SortiesController extends AbstractController
         EntityManagerInterface $entityManager,
         Request $request,
         VilleRepository $villeRepository,
-        LieuRepository $lieuRepository,
         ParticipantRepository $participantRepository,
         EtatRepository $etatRepository,
         SerializerInterface $serializer
@@ -144,11 +145,13 @@ class SortiesController extends AbstractController
             'json',
             $context );
 
-
+        $ville = new Ville();
+        $villeForm = $this->createForm(VilleType::class,$ville);
+//        $villeForm->handleRequest($request);
 
         $lieu = new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $lieu);
-        $lieuForm->handleRequest($request);
+//        $lieuForm->handleRequest($request);
 
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class,$sortie);
@@ -169,6 +172,7 @@ class SortiesController extends AbstractController
                 "liste" => $listevilleslieux,
                 "sortieForm" => $sortieForm->createView(),
                 "lieuForm" => $lieuForm->createView(),
+                "villeForm" => $villeForm->createView()
             ]
         );
     }

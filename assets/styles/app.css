@@ -192,6 +192,7 @@ nav:hover {
 }
 
 input {
+  text-align: center;
   font-family: "Sintony", sans-serif;
   width: 40vw;
   border-top: solid 2px #1e504f;
@@ -208,6 +209,7 @@ input:focus {
 }
 
 select {
+  text-align: center;
   font-family: "Sintony", sans-serif;
   width: 40vw;
   border-top: solid 2px #1e504f;
@@ -224,6 +226,7 @@ select:focus {
 }
 
 textarea {
+  text-align: center;
   font-family: "Sintony", sans-serif;
   width: 40vw;
   border-top: solid 2px #1e504f;
@@ -270,6 +273,7 @@ form {
 }
 
 button {
+  text-align: center;
   font-family: "Sintony", sans-serif;
   width: 40vw;
   border-top: solid 2px #1e504f;

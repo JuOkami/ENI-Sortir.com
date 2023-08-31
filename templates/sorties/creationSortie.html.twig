@@ -19,35 +19,59 @@
 
         {{ form_end(sortieForm) }}
 
+
         <div style="margin-top : 50vh">
-            <p>Aucun lieu ne vous convient ? </p>
-            <button id="myBtn">Créez en un nouveau !</button>
+            <p>Votre ville est absente ? </p>
+            <button id="boutonVille">Créez la !</button>
         </div>
-    </div>
 
 
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close" style=>&times;</span>
-            <h2>Créer un nouveau lieu</h2>
-            <div>{{ form_start(lieuForm) }}
-                {{ form_row(lieuForm.nom) }}
-                {{ form_row(lieuForm.rue) }}
-                {{ form_row(lieuForm.latitude) }}
-                {{ form_row(lieuForm.longitude) }}
-                {{ form_row(lieuForm.ville) }}
-                {{ form_end(lieuForm) }}
-                <button style="margin-left : 20vw; margin-top : 5px" id="boutonperso">Enregistrer le lieu</button>
+        <div id="modaleVille" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" id="closeVille" style=>&times;</span>
+                <h2>Créer une nouvelle ville</h2>
+                <div>{{ form_start(villeForm) }}
+                    {{ form_row(villeForm.nom) }}
+                    {{ form_row(villeForm.codePostal) }}
+                    {{ form_end(villeForm, {render_rest : false}) }}
+                    <button style="margin-left : 20vw; margin-top : 5px" id="boutonpersoVille">Enregistrer la ville
+                    </button>
 
+                </div>
             </div>
         </div>
 
+        <div style="margin-top : 50vh">
+            <p>Aucun lieu ne vous convient ? </p>
+            <button id="boutonLieu">Créez en un nouveau !</button>
+        </div>
+
+
+        <div id="modaleLieu" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" id="closeLieu" style=>&times;</span>
+                <h2>Créer un nouveau lieu</h2>
+                <div>{{ form_start(lieuForm) }}
+                    {{ form_row(lieuForm.nom) }}
+                    {{ form_row(lieuForm.rue) }}
+                    {{ form_row(lieuForm.latitude) }}
+                    {{ form_row(lieuForm.longitude) }}
+                    {{ form_row(lieuForm.ville) }}
+                    {{ form_end(lieuForm, {render_rest : false}) }}
+                    <button style="margin-left : 20vw; margin-top : 5px" id="boutonpersoLieu">Enregistrer le lieu
+                    </button>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <div style="display : none" id="passagedevaleurs" data-liste="{{ liste }}"></div>
     <script src="{{ asset('JS/choixLieu.js') }}"></script>
-    <script src="{{ asset('JS/ouvertureDeModale.js') }}"></script>
+    <script src="{{ asset('JS/ouvertureDeModaleLieu.js') }}"></script>
+    <script src="{{ asset('JS/ouvertureDeModaleVille.js') }}"></script>
 
 
 {% endblock %}
