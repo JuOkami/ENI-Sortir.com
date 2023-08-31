@@ -179,7 +179,7 @@ class SortiesController extends AbstractController
 
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/{id}', name: '_annuleeSortie', methods: ['POST'])]
+    #[Route('/annulation/{id}', name: '_annuleeSortie', methods: ['POST'])]
     public function annuleeSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
 
     {

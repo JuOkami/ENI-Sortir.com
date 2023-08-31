@@ -35,7 +35,7 @@
                     {% if app.user %}
                         <a href="{{ path('app_participant_affichageProfil') }}">Bonjour {{ app.user.pseudo }}</a>
                         {% if app.user.roles[0] == "ROLE_ADMIN" %}
-                        <a href="{{ path('admin') }}">Administration</a>
+                        <a href="{{ path('admin') }}">Administrateur</a>
                         {% endif %}
                         <a href="{{ path('app_logout') }}">Se déconnecter</a>
                     {% endif %}
