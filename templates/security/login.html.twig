@@ -3,29 +3,32 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if app.user %}
-        <div class="mb-3">
-            Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Me déconnecter</a>
-        </div>
-    {% endif %}
+    <form method="post">
+        {% if app.user %}
+            <div class="mb-3">
+                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Me
+                    déconnecter</a>
+            </div>
+        {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter !</h1>
-    <label for="inputPseudo">Identifiant</label>
-    <input type="text" value="{{ last_username }}" name="pseudo" id="inputPseudo" class="form-control" autocomplete="username" required autofocus><br>
-    <label for="inputPassword">Mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required><br>
-    <label>
-        <input type="checkbox" name="_remember_me">
-        Se souvenir de moi ?
-    </label>
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+        <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter !</h1>
+        <label for="inputPseudo">Identifiant</label>
+        <input type="text" value="{{ last_username }}" name="pseudo" id="inputPseudo" class="form-control"
+               autocomplete="username" required autofocus><br>
+        <label for="inputPassword">Mot de passe</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password"
+               required><br>
+        <label>
+            <input type="checkbox" name="_remember_me">
+            Se souvenir de moi ?
+        </label>
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
 
-    {% if error %}
-        <div class="alert alert-danger">Le pseudo n'existe pas ou le mot de passe est erroné.</div>
-    {% endif %}
+        {% if error %}
+            <div class="alert alert-danger">Le pseudo n'existe pas ou le mot de passe est erroné.</div>
+        {% endif %}
 
     <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
     <br>
@@ -36,4 +39,5 @@
 
     <a href="{{ path('app_register') }}">Pas encore de compte ? Cliquez ici !</a>
 </form>
+
 {% endblock %}

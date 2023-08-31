@@ -13,9 +13,8 @@ class CsvImportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('fichier',FileType::class)
-            ->add('submit', SubmitType::class)
-        ;
+            ->add('fichier', FileType::class)
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

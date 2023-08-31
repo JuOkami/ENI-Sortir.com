@@ -20,14 +20,14 @@ class CsvImportController extends AbstractController
     #[Route('/csv/import', name: 'app_csv_import')]
     public function importParticipants(
         EntityManagerInterface $entityManager,
-        SiteRepository $siteRepository,
-        Request $request,
+        SiteRepository         $siteRepository,
+        Request                $request,
     ): Response
     {
 
         $form = $this->createForm(CsvImportType::class)->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $fichier = $form->get("fichier")->getData();
             $tableur = IOFactory::load($fichier);
             $feuille = $tableur->getActiveSheet();
@@ -62,7 +62,7 @@ class CsvImportController extends AbstractController
         }
 
         // Redirigez vers une page appropriée après l'importation
-        return $this->render('csv_import/index.html.twig',compact("form"));
+        return $this->render('csv_import/index.html.twig', compact("form"));
 
     }
 }

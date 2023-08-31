@@ -28,7 +28,7 @@ class RegistrationFormType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
-            ->add('site',EntityType::class,['class'=>Site::class,'choice_label'=>'nom'])
+            ->add('site', EntityType::class, ['class' => Site::class, 'choice_label' => 'nom'])
             ->add('imageFile', VichFileType::class, [
                 'required' => false
             ])
@@ -40,7 +40,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('plainPassword', RepeatedType::class , [
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de Passe :',
                     'hash_property_path' => 'password'],
@@ -58,8 +58,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

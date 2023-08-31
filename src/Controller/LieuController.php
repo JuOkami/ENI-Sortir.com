@@ -18,13 +18,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 class LieuController extends AbstractController
 {
 
-//    #[IsGranted('ROLE_USER')]
-    #[Route('/enregistrerLieu', name : 'enregistrerLieu', methods : ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    #[Route('/enregistrerLieu', name: 'enregistrerLieu', methods: ['POST'])]
     public function enregistrerLieu(
-        Request $request,
+        Request                $request,
         EntityManagerInterface $entityManager,
-        VilleRepository $villeRepository
-    ){
+        VilleRepository        $villeRepository
+    )
+    {
         $req = $request->toArray();
         $lieu = (new Lieu())
             ->setNom($req['nom'])
@@ -36,7 +37,7 @@ class LieuController extends AbstractController
         $entityManager->flush();
 
         return $this->json(
-            $villeRepository->findBy([], ['nom'=> 'ASC']),
+            $villeRepository->findBy([], ['nom' => 'ASC']),
             201,
             [],
             ['groups' => 'listeLieux']
@@ -46,7 +47,7 @@ class LieuController extends AbstractController
     #[IsGranted('ROLE_USER')]
     #[Route('/lieu', name: 'app_lieu')]
     public function creationLieu(
-        Request $request,
+        Request                $request,
         EntityManagerInterface $entityManager
     ): Response
     {
@@ -54,7 +55,7 @@ class LieuController extends AbstractController
         $lieuForm = $this->createForm(LieuType::class, $lieu);
         $lieuForm->handleRequest($request);
 
-        if ($lieuForm->isSubmitted()&&$lieuForm->isValid()){
+        if ($lieuForm->isSubmitted() && $lieuForm->isValid()) {
             $entityManager->persist($lieu);
             $entityManager->flush();
             return $this->redirectToRoute('app_sorties_creationSortie');

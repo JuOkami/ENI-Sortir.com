@@ -24,6 +24,7 @@ class ParticipantController extends AbstractController
     {
         return $this->render('participant/participant.html.twig', compact('participant'));
     }
+
     #[IsGranted('ROLE_USER')]
     #[Route('/affichageProfil', name: '_affichageProfil')]
     public function affichageUser(): Response
@@ -38,7 +39,7 @@ class ParticipantController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[Route('/modifierProfil', name: 'modifier_profil')]
-    public function modifierProfil( Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function modifierProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $participant = $this->getUser();
         $form = $this->createForm(ModificationProfilType::class, $participant);

@@ -20,21 +20,20 @@ class LieuType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, ['label' => 'Nom du lieu : '])
-            ->add('rue', TextType::class, ['label'=> 'Nom de la rue : '])
+            ->add('rue', TextType::class, ['label' => 'Nom de la rue : '])
             ->add('latitude', NumberType::class, ['label' => 'Latitude : '])
-            ->add('longitude', NumberType::class, ['label'=>'Longitude : '])
+            ->add('longitude', NumberType::class, ['label' => 'Longitude : '])
             ->add('ville', EntityType::class, [
-                'class'=>Ville::class,
+                'class' => Ville::class,
                 'label' => 'Ville : ',
                 'choice_label' => function (Ville $ville): string {
-                    return ($ville->getCodePostal()).' '.($ville->getNom());
+                    return ($ville->getCodePostal()) . ' ' . ($ville->getNom());
                 },
                 'query_builder' => function (VilleRepository $er): QueryBuilder {
-                return $er->createQueryBuilder('ville')
-                    ->orderBy('ville.codePostal', 'ASC');
-            },])
-            ->add('Valider', SubmitType::class, ['label'=>'Valider le lieu'])
-        ;
+                    return $er->createQueryBuilder('ville')
+                        ->orderBy('ville.codePostal', 'ASC');
+                },])
+            ->add('Valider', SubmitType::class, ['label' => 'Valider le lieu']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

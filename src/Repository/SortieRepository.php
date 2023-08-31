@@ -14,7 +14,6 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 
-
 /**
  * @extends ServiceEntityRepository<Sortie>
  *
@@ -36,9 +35,10 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 
-    public function findByRecherche(SortieFiltre $recherche, Participant $utilisateur ){
-        $query =  $this->createQueryBuilder('sortie')
-                ->select("sortie");
+    public function findByRecherche(SortieFiltre $recherche, Participant $utilisateur)
+    {
+        $query = $this->createQueryBuilder('sortie')
+            ->select("sortie");
 
         if (!empty($recherche->getName())) {
             $query = $query
@@ -64,30 +64,29 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('datemax', $recherche->getDateMax());
         }
 
-        if ($recherche->isIsOrganisateur()){
+        if ($recherche->isIsOrganisateur()) {
             $query = $query
                 ->andWhere('sortie.organisateur = :utilisateur')
                 ->setParameter('utilisateur', $utilisateur);
         }
 
-        if($recherche->isIsInscrit() === null){
+        if ($recherche->isIsInscrit() === null) {
 
-        }
-        else{
-            if ($recherche->isIsInscrit()){
+        } else {
+            if ($recherche->isIsInscrit()) {
                 $query = $query
                     ->andWhere(':utilisateur MEMBER OF sortie.inscriptions')
                     ->setParameter('utilisateur', $utilisateur);
             }
 
-            if (!$recherche->isIsInscrit()){
+            if (!$recherche->isIsInscrit()) {
                 $query = $query
                     ->andWhere(':utilisateur NOT MEMBER OF sortie.inscriptions')
                     ->setParameter('utilisateur', $utilisateur);
             }
         }
 
-        if ($recherche->isIsPasse()){
+        if ($recherche->isIsPasse()) {
             $query = $query
                 ->andWhere('sortie.etat = :etat')
                 ->setParameter('etat', 5);
@@ -111,18 +110,21 @@ class SortieRepository extends ServiceEntityRepository
 
         foreach ($sorties as $sortie) {
             $endDateTime = clone $sortie->getDateHeureDebut();
-            $endDateTime->add(new DateInterval('PT'. $sortie->getDuree() .'H'));
+            $endDateTime->add(new DateInterval('PT' . $sortie->getDuree() . 'H'));
 
 
-            if ($sortie->getDateLimiteInscription()> $currentDateTime)
+            if ($sortie->getDateLimiteInscription() > $currentDateTime)
                 $sortie->setEtat($openState);
             if ($sortie->getDateLimiteInscription() < $currentDateTime) {
                 $sortie->setEtat($closedState);
-            } if (($sortie->getDateHeureDebut() <= $currentDateTime) && ($currentDateTime <= $endDateTime)) {
+            }
+            if (($sortie->getDateHeureDebut() <= $currentDateTime) && ($currentDateTime <= $endDateTime)) {
                 $sortie->setEtat($inProgressState);
-            } if ($currentDateTime > $endDateTime) {
+            }
+            if ($currentDateTime > $endDateTime) {
                 $sortie->setEtat($pastState);
-            } if ($sortie->getDateHeureDebut() < new DateTime('-1 month')) {
+            }
+            if ($sortie->getDateHeureDebut() < new DateTime('-1 month')) {
                 $sortie->setEtat($archivedState);
             }
 
