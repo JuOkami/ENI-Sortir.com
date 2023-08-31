@@ -50,7 +50,7 @@ class adminController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa-solid fa-lock');
-        yield MenuItem::linkToRoute('Retour du site','fa-solid fa-arrow-rotate-left', 'app_sorties_list');
+        yield MenuItem::linkToRoute('Retour du site', 'fa-solid fa-arrow-rotate-left', 'app_sorties_list');
         yield MenuItem::linkToCrud('Participant', 'fa-solid fa-person', Participant::class);
         yield MenuItem::linkToRoute("Importer un fichier", "fa-solid fa-file-import", "app_csv_import");
         yield MenuItem::linkToCrud('Sortie', 'fa-solid fa-calendar-days', Sortie::class);

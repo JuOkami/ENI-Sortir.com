@@ -69,7 +69,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Site $site = null;
 
 
-
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, orphanRemoval: true)]
     private Collection $sortiesOrganisees;
 
@@ -108,7 +107,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->pseudo;
+        return (string)$this->pseudo;
     }
 
     /**
@@ -381,19 +380,19 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return [
             'id' => $this->id,
             "imageName" => $this->imageName,
-            'imageSize'=>$this->imageSize,
-            'updatedAt'=>$this->updatedAt,
-            'pseudo'=>$this->pseudo,
-            'role'=>$this->roles,
-            'password'=>$this->password,
-            'nom'=>$this->nom,
-            'prenom'=>$this->prenom,
-            'telephone'=>$this->telephone,
-            'mail'=>$this->mail,
-            'actif'=>$this->actif,
-            'site'=>$this->site,
-            'sortiesOrganisees'=>$this->sortiesOrganisees,
-            'inscriptions'=>$this->inscriptions
+            'imageSize' => $this->imageSize,
+            'updatedAt' => $this->updatedAt,
+            'pseudo' => $this->pseudo,
+            'role' => $this->roles,
+            'password' => $this->password,
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+            'telephone' => $this->telephone,
+            'mail' => $this->mail,
+            'actif' => $this->actif,
+            'site' => $this->site,
+            'sortiesOrganisees' => $this->sortiesOrganisees,
+            'inscriptions' => $this->inscriptions
         ];
     }
 
@@ -418,7 +417,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-       return $this->getPseudo();
+        return $this->getPseudo();
     }
 
 

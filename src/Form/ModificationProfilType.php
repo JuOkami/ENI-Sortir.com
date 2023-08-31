@@ -20,14 +20,13 @@ class ModificationProfilType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
-            ->add('site',EntityType::class,['class'=>Site::class,'choice_label'=>'nom'])
+            ->add('site', EntityType::class, ['class' => Site::class, 'choice_label' => 'nom'])
             ->add('imageFile', VichFileType::class, [
                 'required' => false,
                 'label' => 'Modifiez votre photo de profil',
                 'delete_label' => 'Supprimer votre photo de profil actuelle ? ',
                 'download_uri' => false
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

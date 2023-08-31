@@ -1,30 +1,27 @@
-
-
-    var modalLieu = document.getElementById("modaleLieu");
+var modalLieu = document.getElementById("modaleLieu");
 
 // Get the button that opens the modal
-    var btnLieu = document.getElementById("boutonLieu");
+var btnLieu = document.getElementById("boutonLieu");
 
 // Get the <span> element that closes the modal
-    var spanLieu = document.getElementById("closeLieu");
+var spanLieu = document.getElementById("closeLieu");
 
-    document.getElementById("boutonpersoLieu").addEventListener('click', envoiduformulaireLieu);
-
+document.getElementById("boutonpersoLieu").addEventListener('click', envoiduformulaireLieu);
 
 
 // When the user clicks on the button, open the modal
-btnLieu.onclick = function() {
+btnLieu.onclick = function () {
     console.log("Cela marche ti'il seulement");
     modalLieu.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
-spanLieu.onclick = function() {
+spanLieu.onclick = function () {
     modalLieu.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modalLieu) {
         modalLieu.style.display = "none";
     }
@@ -43,7 +40,7 @@ function envoiduformulaireLieu() {
         rue: rue,
         latitude: latitude,
         longitude: longitude,
-        ville : ville
+        ville: ville
     }
 
     fetch('http://localhost:8000/enregistrerLieu', {
