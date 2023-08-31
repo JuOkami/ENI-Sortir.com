@@ -219,6 +219,7 @@ nav {
 }
 
 @mixin champs{
+    text-align: center;
     font-family: $policedetexte;
     width : 40vw;
     border-top : solid 2px $couleur4;

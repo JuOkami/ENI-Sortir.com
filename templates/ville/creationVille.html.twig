@@ -2,18 +2,16 @@
 
 {% block body %}
 
-   <h2>Créer une nouvelle ville</h2>
+    <h2>Créer une nouvelle ville</h2>
 
-   <div class="zoneFormulairesortie">
-    {{ form_start(villeForm) }}
-      {{ form_row(villeForm.nom) }}
-      {{ form_row((villeForm.codePostal)) }}
-      {{ form_end(villeForm) }}
-   </div>
-
-{% endblock %}
-
-{% block title %}
+    <div class="zoneFormulairesortie">
+        {{ form_start(villeForm) }}
+        {{ form_row(villeForm.nom) }}
+        {{ form_row((villeForm.codePostal)) }}
+        {{ form_end(villeForm) }}
+    </div>
 
 {% endblock %}
+
+
 
