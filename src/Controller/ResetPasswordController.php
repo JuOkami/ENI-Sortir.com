@@ -22,7 +22,7 @@ use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 
-#[IsGranted('ROLE_USER')]
+
 #[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
 {
@@ -39,7 +39,6 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
 
-    #[IsGranted('ROLE_USER')]
     #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
