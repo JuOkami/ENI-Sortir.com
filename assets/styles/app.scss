@@ -114,10 +114,12 @@ nav {
     margin : 1.2vw;
     font-family: $policedetexte;
     height: 190px;
-    transition: background-position 0.5s;
-    box-shadow: inset 5px 5px 15px 5px $couleur2;
+    transition: background-position 0.5s, box-shadow 0.5s;
+    //box-shadow: inset 5px 5px 15px 5px $couleur2;
+    box-shadow: 5px 5px 11px 1px rgba(0,0,0,0.63);
     &:hover{
         background-position: right center;
+        box-shadow: 10px 10px 11px 1px rgba(0,0,0,0.63);
     }
 }
 
